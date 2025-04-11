@@ -1,0 +1,142 @@
+[gd_scene load_steps=7 format=3 uid="uid://dcf8acq75ktr0"]
+
+[ext_resource type="Script" uid="uid://8rofpeqm3occ" path="res://main.gd" id="1_xlr82"]
+[ext_resource type="Script" uid="uid://cqruuswbikbrm" path="res://file_menu.gd" id="2_1bvp3"]
+[ext_resource type="Script" uid="uid://drv8io118p5t" path="res://addbutton.gd" id="2_2ns8r"]
+[ext_resource type="Theme" uid="uid://cp1l5q3r0n17m" path="res://main_theme.tres" id="2_5wffu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h2yge"]
+content_margin_left = 30.0
+content_margin_top = 5.0
+content_margin_right = 30.0
+content_margin_bottom = 5.0
+bg_color = Color(0.233925, 0.233925, 0.233925, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_qq3wf"]
+font_size = 24
+
+[node name="Main" type="Control" node_paths=PackedStringArray("hours_logged_cont", "aux_container", "addbutton", "total", "hours_left", "money_earned")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xlr82")
+hours_logged_cont = NodePath("ContentsContainer/ScrollContainer/DataContainer/HoursLoggedCont")
+aux_container = NodePath("ContentsContainer/ScrollContainer/DataContainer/AuxContainer")
+addbutton = NodePath("ContentsContainer/MarginBottom/VBox/ButtonHBox/addbutton")
+total = NodePath("ContentsContainer/MarginBottom/VBox/InfoVBox/Total")
+hours_left = NodePath("ContentsContainer/MarginBottom/VBox/InfoVBox/HoursLeft")
+money_earned = NodePath("ContentsContainer/MarginBottom/VBox/InfoVBox/MoneyEarned")
+config_file_path = "user://settings.ini"
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+offset_right = 1279.0
+offset_bottom = 800.0
+color = Color(0.243127, 0.336977, 0.276643, 1)
+
+[node name="ContentsContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FileMenuContainer" type="MarginContainer" parent="ContentsContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="MenuBar" type="MenuBar" parent="ContentsContainer/FileMenuContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_h2yge")
+
+[node name="File" type="PopupMenu" parent="ContentsContainer/FileMenuContainer/MenuBar"]
+disable_3d = true
+size = Vector2i(100, 116)
+item_count = 4
+item_0/text = "Open"
+item_0/id = 0
+item_1/text = "Save As"
+item_1/id = 1
+item_2/text = "Save"
+item_2/id = 2
+item_3/text = "Quit"
+item_3/id = 3
+script = ExtResource("2_1bvp3")
+
+[node name="Label" type="Label" parent="ContentsContainer"]
+layout_mode = 2
+theme = ExtResource("2_5wffu")
+text = "Let's Count Them Hours"
+label_settings = SubResource("LabelSettings_qq3wf")
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="ContentsContainer"]
+custom_minimum_size = Vector2(0, 225)
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="DataContainer" type="HBoxContainer" parent="ContentsContainer/ScrollContainer"]
+layout_mode = 2
+
+[node name="HoursLoggedCont" type="VBoxContainer" parent="ContentsContainer/ScrollContainer/DataContainer"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+
+[node name="AuxContainer" type="VBoxContainer" parent="ContentsContainer/ScrollContainer/DataContainer"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+
+[node name="MarginBottom" type="MarginContainer" parent="ContentsContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+
+[node name="VBox" type="VBoxContainer" parent="ContentsContainer/MarginBottom"]
+layout_mode = 2
+
+[node name="InfoVBox" type="VBoxContainer" parent="ContentsContainer/MarginBottom/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Total" type="Label" parent="ContentsContainer/MarginBottom/VBox/InfoVBox"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Total: 0"
+
+[node name="HoursLeft" type="Label" parent="ContentsContainer/MarginBottom/VBox/InfoVBox"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Hours Left: 140"
+
+[node name="MoneyEarned" type="Label" parent="ContentsContainer/MarginBottom/VBox/InfoVBox"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Money Earned: 0"
+
+[node name="ButtonHBox" type="HBoxContainer" parent="ContentsContainer/MarginBottom/VBox"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_override_constants/separation = 100
+alignment = 1
+
+[node name="addbutton" type="Button" parent="ContentsContainer/MarginBottom/VBox/ButtonHBox"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme = ExtResource("2_5wffu")
+text = "Add Hours"
+script = ExtResource("2_2ns8r")
+
+[node name="QuitButton" type="Button" parent="ContentsContainer/MarginBottom/VBox/ButtonHBox"]
+layout_mode = 2
+theme = ExtResource("2_5wffu")
+text = "Quit"
+
+[connection signal="id_pressed" from="ContentsContainer/FileMenuContainer/MenuBar/File" to="ContentsContainer/FileMenuContainer/MenuBar/File" method="_on_id_pressed"]
+[connection signal="pressed" from="ContentsContainer/MarginBottom/VBox/ButtonHBox/addbutton" to="." method="_on_addbutton_pressed"]
+[connection signal="pressed" from="ContentsContainer/MarginBottom/VBox/ButtonHBox/QuitButton" to="." method="_on_quit_button_pressed"]
