@@ -23,6 +23,7 @@ func _ready() -> void:
 	# Open res://settings.ini
 	if not FileAccess.file_exists(config_file_path):
 		print("File does not exist")
+
 		var new_file : ConfigFile = ConfigFile.new()
 		new_file.save(config_file_path)
 		new_file.set_value("files", "cur_save_file", "")
@@ -36,30 +37,10 @@ func _ready() -> void:
 			print("Value found")
 			cur_save_file = new_file.get_value("files", "cur_save_file")
 			print("Cur_save_file found: %s" % cur_save_file)
-	
-	# Open last used file if available
-	var save_file = FileAccess.open(cur_save_file, FileAccess.READ_WRITE)
-	if not save_file:
-		print("No file found in Ready.")
+	if not cur_save_file:
 		return
-	while(true):
-		# Get the data from save file
-		var line : String = save_file.get_line()
-		if line.begins_with("cur_save_file"):
-			var sliced_string = line.split("|")
-			cur_save_file = sliced_string[1]
-			cur_save_file.strip_edges()
-			continue
-		if not line:
-			break
-		var separated_data : PackedStringArray = line.split("|")
-		separated_data[0] = separated_data[0].strip_edges()
-		separated_data[1] = separated_data[1].strip_edges()
-		print("Separated data: %s|%s" % [separated_data[0], separated_data[1]])
-		add_data(separated_data[0], separated_data[1])
 	
-	save_file.close()
-	update_total()
+	open_file(cur_save_file)
 
 
 func _on_addbutton_pressed() -> void:
@@ -202,22 +183,13 @@ func _on_quit_button_pressed() -> void:
 		
 		popup.show()
 	else:
+		print("_on_quit_button_pressed file already saved")
 		quit()
 	is_quitting = true
 
 
 func save_as() -> void:
 	open_file_dialog(true)
-	#var file_browser : FileDialog = FileDialog.new()
-	#add_child(file_browser)
-	#file_browser.show()
-	#file_browser.access = FileDialog.ACCESS_FILESYSTEM
-	#file_browser.file_mode = FileDialog.FILE_MODE_SAVE_FILE
-	#file_browser.current_dir = OS.get_system_dir(OS.SYSTEM_DIR_DOCUMENTS)
-	#file_browser.use_native_dialog = true
-	#file_browser.confirmed.connect(Callable(self, "save_file_chosen"))
-	#file_browser.file_selected.connect(Callable(self, "save_file_chosen"))
-	#cur_file_browser = file_browser
 
 
 func open_file_dialog(is_saving : bool) -> void:
@@ -226,18 +198,23 @@ func open_file_dialog(is_saving : bool) -> void:
 	add_child(file_browser)
 	file_browser.show()
 	file_browser.access = FileDialog.ACCESS_FILESYSTEM
-	file_browser.file_mode = FileDialog.FILE_MODE_SAVE_FILE
 	file_browser.current_dir = OS.get_system_dir(OS.SYSTEM_DIR_DOCUMENTS)
-	file_browser.use_native_dialog = true
+	file_browser.add_filter("sav")
+	#file_browser.use_native_dialog = true
 	if is_saving:
+		file_browser.file_mode = FileDialog.FILE_MODE_SAVE_FILE
+		file_browser.name = "Save File"
 		file_browser.confirmed.connect(save_file_chosen)
 		file_browser.file_selected.connect(Callable(self, "save_file_chosen"))
 	else:
+		file_browser.file_mode = FileDialog.FILE_MODE_OPEN_FILE
+		file_browser.name = "Open File"
 		file_browser.file_selected.connect(open_file)
 	cur_file_browser = file_browser
 
 
 func save_file_chosen(path : String) -> void:
+	## Method to 
 	var file_name : String = path
 	if not file_name.ends_with(".sav"):
 		file_name += "sav"
@@ -247,30 +224,59 @@ func save_file_chosen(path : String) -> void:
 
 
 func open_file(filename : String) -> void:
-	cur_file_browser.queue_free()
+		# Open last used file if available
+	var save_file = FileAccess.open(filename, FileAccess.READ)
+	if not save_file:
+		print("No file found in Ready.")
+		return
+	
+	if not is_saved:
+		## Make dialog asking to save
+		print("File is not saved when closing to open new file.")
+	# Clear previous data
+	for child in hours_logged_cont.get_children():
+		child.queue_free()
+	for child in aux_container.get_children():
+		child.queue_free()
+	time_entries = []
+	
+	while(true):
+		# Get the data from save file
+		var line : String = save_file.get_line()
+		if not line:
+			break
+		var separated_data : PackedStringArray = line.split("|")
+		separated_data[0] = separated_data[0].strip_edges()
+		separated_data[1] = separated_data[1].strip_edges()
+		print("Separated data: %s|%s" % [separated_data[0], separated_data[1]])
+		add_data(separated_data[0], separated_data[1])
+	
+	save_file.close()
+	update_total()
+	
+	if cur_file_browser:
+		cur_file_browser.queue_free()
 
 
 func save() -> void:
-	if not cur_save_file:
-		save_as()
-		return
-	
 	if not FileAccess.file_exists(cur_save_file):
 		print("Save file not found?")
+		save_as()
 		
 	var save_file = FileAccess.open(cur_save_file, FileAccess.WRITE)
-	print(FileAccess.get_open_error())
+	#print(FileAccess.get_open_error())
 	print(cur_save_file)
 	if not save_file:
 		return
 	
-	save_file.store_line("cur_save_file | %s" % cur_save_file)
+	#save_file.store_line("cur_save_file | %s" % cur_save_file)
 	
 	for entry in time_entries:
 		var data : Array[String] = entry.get_data_as_text()
 		save_file.store_line(data[0] + "|" + data[1])
 	is_saved = true
-	cur_file_browser.queue_free()
+	if cur_file_browser:
+		cur_file_browser.queue_free()
 	save_file.close()
 	if is_quitting:
 		is_quitting = false

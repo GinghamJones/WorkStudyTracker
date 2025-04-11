@@ -15,7 +15,7 @@ bg_color = Color(0.233925, 0.233925, 0.233925, 1)
 [sub_resource type="LabelSettings" id="LabelSettings_qq3wf"]
 font_size = 24
 
-[node name="Main" type="Control" node_paths=PackedStringArray("hours_logged_cont", "aux_container", "addbutton", "total", "hours_left", "money_earned")]
+[node name="Main" type="Control" node_paths=PackedStringArray("hours_logged_cont", "aux_container", "addbutton", "total", "hours_left", "money_earned") groups=["Main"]]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
