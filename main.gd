@@ -1,20 +1,24 @@
 extends Control
 
 @export var hours_logged_cont: VBoxContainer
-@export var aux_container: VBoxContainer
+@export var gui_main: GUIMain
 @export var addbutton: Button
-@onready var delete_script : Script = preload("res://delete_button.gd")
+@export var delete_script : Script 
+@export var config_file_path : String
+@export var save_file_path : String
+
 @export var total: Label
 @export var hours_left: Label
 @export var money_earned: Label
-@export var config_file_path : String
+var max_hours : int
+var wage : float
+var term : String
 
 var canceled : bool = false
 var cur_save_file : String
 var cur_file_browser : FileDialog = null
 var is_quitting : bool = false
 var time_entries : Array[TimeEntry] = []
-var cur_term : String
 var is_saved : bool = false
 var auto_save_enabled : bool = true
 
@@ -23,10 +27,9 @@ func _ready() -> void:
 	# Open res://settings.ini
 	if not FileAccess.file_exists(config_file_path):
 		print("File does not exist")
-
 		var new_file : ConfigFile = ConfigFile.new()
-		new_file.save(config_file_path)
 		new_file.set_value("files", "cur_save_file", "")
+		new_file.save(config_file_path)
 	else:
 		var new_file : ConfigFile = ConfigFile.new()
 		var err = new_file.load(config_file_path)
@@ -34,46 +37,13 @@ func _ready() -> void:
 			print("Error opening file %s" % err)
 			return
 		if new_file.has_section("files"):
-			print("Value found")
 			cur_save_file = new_file.get_value("files", "cur_save_file")
-			print("Cur_save_file found: %s" % cur_save_file)
 	if not cur_save_file:
+		$ContentsContainer/MarginBottom.hide()
+		print("Ready: cur_save_file not ultimately found")
 		return
 	
 	open_file(cur_save_file)
-
-
-func _on_addbutton_pressed() -> void:
-	# This purely creates the window in which to enter a new Time Entry
-	var window : ConfirmationDialog = create_time_entry_window()
-	var container : VBoxContainer = VBoxContainer.new()
-	var data_field : LineEdit = LineEdit.new()
-	var date_field : LineEdit = LineEdit.new()
-	window.add_child(container)
-	container.alignment = BoxContainer.ALIGNMENT_CENTER
-	data_field.set_script(load("res://hours_label.gd"))
-	date_field.set_script(load("res://date_label.gd"))
-	container.add_child(date_field)
-	container.add_child(data_field)
-	
-	data_field.position += Vector2(10, 0)
-	window.connect("canceled", Callable(self, "cancel"))
-	window.connect("confirmed", Callable(self, "confirm_time"))
-	
-	if canceled: 
-		canceled = false
-		data_field.queue_free()
-		date_field.queue_free()
-		window.queue_free()
-		return
-	
-	await(window.confirmed)
-	add_data(date_field.text, data_field.text)
-	
-	update_total()
-	data_field.queue_free()
-	date_field.queue_free()
-	window.queue_free()
 
 
 func cancel():
@@ -109,60 +79,21 @@ func update_total():
 		new_total += entry.time
 	
 	total.text = "Total: " + str(new_total)
-	hours_left.text = "Hours remaining: " + str(140 - new_total)
-	money_earned.text = "Cash earned: $%*.*f" % [7, 2, (new_total * 14.70)]
+	hours_left.text = "Hours remaining: " + str(max_hours - new_total)
+	money_earned.text = "Cash earned: $%*.*f" % [7, 2, (new_total * wage)]
 	if auto_save_enabled:
 		save()
 
 
 func add_data(date : String, time : String) -> void:
-	# This adds the actual LineEdits to display data on main page
 	is_saved = false
-	
-	# Check data
+	# Create new time entry
 	var new_time_entry : TimeEntry = TimeEntry.new()
 	new_time_entry.set_data(date, time)
 	time_entries.append(new_time_entry)
 	
-	# Prepare data to be added to GUI
-	var new_data_label : LineEdit = LineEdit.new()
-	var new_date_label : DateLabel = DateLabel.new()
-	var hbox : HBoxContainer = HBoxContainer.new()
-	hbox.add_to_group("Save")
-	
-	# Setup text display fields
-	new_date_label.text = date
-	#new_date_label.set_script(load("res://date_label.gd"))
-	new_data_label.text = time
-	new_data_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	new_date_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	
-	# Add new data to hours_logged vbox container
-	hbox.add_child(new_date_label)
-	hbox.add_child(new_data_label)
-	hours_logged_cont.add_child(hbox)
-
-	# Add a delete button
-	var new_delete_button : DeleteButton = DeleteButton.new()
-	new_delete_button.text = "Remove"
-	new_delete_button.set_script(delete_script)
-	new_delete_button.initiate(self, hbox, new_time_entry)
-	
-	aux_container.add_child(new_delete_button)
-
-
-func create_time_entry_window() -> ConfirmationDialog:
-	var new_window : ConfirmationDialog = ConfirmationDialog.new()
-	add_child(new_window)
-	new_window.mode = Window.MODE_WINDOWED
-	new_window.unresizable = true
-	new_window.min_size = Vector2i(500, 200)
-	new_window.exclusive = true
-	new_window.initial_position = Window.WINDOW_INITIAL_POSITION_CENTER_MAIN_WINDOW_SCREEN
-	new_window.dialog_text = "How much time did you work?"
-	new_window.popup_centered(Vector2i(2, 2))
-	new_window.show()
-	return new_window
+	gui_main.add_data_to_gui(new_time_entry)
+	update_total()
 
 
 func _on_quit_button_pressed() -> void:
@@ -188,34 +119,54 @@ func _on_quit_button_pressed() -> void:
 	is_quitting = true
 
 
+func new_file() -> void:
+	var new_file_dialog : NewFileWindow = NewFileWindow.new()
+	add_child(new_file_dialog)
+
+
+func create_new_file(new_term : String, new_max_hours : String, new_wage : String, filename : String) -> void:
+	print("Create file called")
+	if cur_save_file != "":
+		save()
+	
+	term = new_term
+	max_hours = int(new_max_hours)
+	wage = float(new_wage)
+	
+	print(term + new_max_hours + new_wage)
+	gui_main.clear_contents()
+	
+	$ContentsContainer/MarginBottom.show()
+	cur_save_file = save_file_path + filename
+
+
 func save_as() -> void:
 	open_file_dialog(true)
 
 
 func open_file_dialog(is_saving : bool) -> void:
-	var file_browser : FileDialog = FileDialog.new()
-	print("file browser created")
-	add_child(file_browser)
-	file_browser.show()
-	file_browser.access = FileDialog.ACCESS_FILESYSTEM
-	file_browser.current_dir = OS.get_system_dir(OS.SYSTEM_DIR_DOCUMENTS)
-	file_browser.add_filter("sav")
-	#file_browser.use_native_dialog = true
+	var window : AcceptDialog = AcceptDialog.new()
+	add_child(window)
+	window.title = "Save As"
 	if is_saving:
-		file_browser.file_mode = FileDialog.FILE_MODE_SAVE_FILE
-		file_browser.name = "Save File"
-		file_browser.confirmed.connect(save_file_chosen)
-		file_browser.file_selected.connect(Callable(self, "save_file_chosen"))
-	else:
-		file_browser.file_mode = FileDialog.FILE_MODE_OPEN_FILE
-		file_browser.name = "Open File"
-		file_browser.file_selected.connect(open_file)
-	cur_file_browser = file_browser
+		window.confirmed.connect(save_file_chosen)
+	window.popup_centered()
+	window.size = Vector2(300, 300)
+	var dir = DirAccess.open(save_file_path)
+	print("Dir = " + str(dir))
+	if dir:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		while file_name != "":
+			var button : Button = Button.new()
+			button.text = file_name
+			window.add_child(button)
+			button.pressed.connect(open_file)
 
 
-func save_file_chosen(path : String) -> void:
-	## Method to 
-	var file_name : String = path
+func save_file_chosen(new_file_name : String) -> void:
+	## Method to specify file name when opening save as dialog
+	var file_name : String = save_file_path + new_file_name
 	if not file_name.ends_with(".sav"):
 		file_name += "sav"
 	cur_save_file = file_name
@@ -234,10 +185,7 @@ func open_file(filename : String) -> void:
 		## Make dialog asking to save
 		print("File is not saved when closing to open new file.")
 	# Clear previous data
-	for child in hours_logged_cont.get_children():
-		child.queue_free()
-	for child in aux_container.get_children():
-		child.queue_free()
+	gui_main.clear_contents()
 	time_entries = []
 	
 	while(true):
@@ -248,6 +196,12 @@ func open_file(filename : String) -> void:
 		var separated_data : PackedStringArray = line.split("|")
 		separated_data[0] = separated_data[0].strip_edges()
 		separated_data[1] = separated_data[1].strip_edges()
+		if separated_data[0] == "term":
+			term = separated_data[1]
+		elif separated_data[0] == "max_hours":
+			max_hours = int(separated_data[1])
+		elif separated_data[0] == "wage":
+			wage = float(separated_data[1])
 		print("Separated data: %s|%s" % [separated_data[0], separated_data[1]])
 		add_data(separated_data[0], separated_data[1])
 	
@@ -260,8 +214,8 @@ func open_file(filename : String) -> void:
 
 func save() -> void:
 	if not FileAccess.file_exists(cur_save_file):
-		print("Save file not found?")
 		save_as()
+		return
 		
 	var save_file = FileAccess.open(cur_save_file, FileAccess.WRITE)
 	#print(FileAccess.get_open_error())
