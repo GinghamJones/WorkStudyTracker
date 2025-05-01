@@ -3,18 +3,22 @@ extends Control
 @export var hours_logged_cont: VBoxContainer
 @export var gui_main: GUIMain
 @export var addbutton: Button
-@onready var delete_script : Script = preload("res://delete_button.gd")
+@export var delete_script : Script 
+@export var config_file_path : String
+@export var save_file_path : String
+
 @export var total: Label
 @export var hours_left: Label
 @export var money_earned: Label
-@export var config_file_path : String
+var max_hours : int
+var wage : float
+var term : String
 
 var canceled : bool = false
 var cur_save_file : String
 var cur_file_browser : FileDialog = null
 var is_quitting : bool = false
 var time_entries : Array[TimeEntry] = []
-var cur_term : String
 var is_saved : bool = false
 var auto_save_enabled : bool = true
 
@@ -35,6 +39,7 @@ func _ready() -> void:
 		if new_file.has_section("files"):
 			cur_save_file = new_file.get_value("files", "cur_save_file")
 	if not cur_save_file:
+		$ContentsContainer/MarginBottom.hide()
 		print("Ready: cur_save_file not ultimately found")
 		return
 	
@@ -74,8 +79,8 @@ func update_total():
 		new_total += entry.time
 	
 	total.text = "Total: " + str(new_total)
-	hours_left.text = "Hours remaining: " + str(140 - new_total)
-	money_earned.text = "Cash earned: $%*.*f" % [7, 2, (new_total * 14.70)]
+	hours_left.text = "Hours remaining: " + str(max_hours - new_total)
+	money_earned.text = "Cash earned: $%*.*f" % [7, 2, (new_total * wage)]
 	if auto_save_enabled:
 		save()
 
@@ -114,34 +119,54 @@ func _on_quit_button_pressed() -> void:
 	is_quitting = true
 
 
+func new_file() -> void:
+	var new_file_dialog : NewFileWindow = NewFileWindow.new()
+	add_child(new_file_dialog)
+
+
+func create_new_file(new_term : String, new_max_hours : String, new_wage : String, filename : String) -> void:
+	print("Create file called")
+	if cur_save_file != "":
+		save()
+	
+	term = new_term
+	max_hours = int(new_max_hours)
+	wage = float(new_wage)
+	
+	print(term + new_max_hours + new_wage)
+	gui_main.clear_contents()
+	
+	$ContentsContainer/MarginBottom.show()
+	cur_save_file = save_file_path + filename
+
+
 func save_as() -> void:
 	open_file_dialog(true)
 
 
 func open_file_dialog(is_saving : bool) -> void:
-	var file_browser : FileDialog = FileDialog.new()
-	print("file browser created")
-	add_child(file_browser)
-	file_browser.show()
-	file_browser.access = FileDialog.ACCESS_FILESYSTEM
-	file_browser.current_dir = OS.get_system_dir(OS.SYSTEM_DIR_DOCUMENTS)
-	file_browser.add_filter("sav")
-	#file_browser.use_native_dialog = true
+	var window : AcceptDialog = AcceptDialog.new()
+	add_child(window)
+	window.title = "Save As"
 	if is_saving:
-		file_browser.file_mode = FileDialog.FILE_MODE_SAVE_FILE
-		file_browser.name = "Save File"
-		file_browser.confirmed.connect(save_file_chosen)
-		file_browser.file_selected.connect(Callable(self, "save_file_chosen"))
-	else:
-		file_browser.file_mode = FileDialog.FILE_MODE_OPEN_FILE
-		file_browser.name = "Open File"
-		file_browser.file_selected.connect(open_file)
-	cur_file_browser = file_browser
+		window.confirmed.connect(save_file_chosen)
+	window.popup_centered()
+	window.size = Vector2(300, 300)
+	var dir = DirAccess.open(save_file_path)
+	print("Dir = " + str(dir))
+	if dir:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		while file_name != "":
+			var button : Button = Button.new()
+			button.text = file_name
+			window.add_child(button)
+			button.pressed.connect(open_file)
 
 
-func save_file_chosen(path : String) -> void:
+func save_file_chosen(new_file_name : String) -> void:
 	## Method to specify file name when opening save as dialog
-	var file_name : String = path
+	var file_name : String = save_file_path + new_file_name
 	if not file_name.ends_with(".sav"):
 		file_name += "sav"
 	cur_save_file = file_name
@@ -171,6 +196,12 @@ func open_file(filename : String) -> void:
 		var separated_data : PackedStringArray = line.split("|")
 		separated_data[0] = separated_data[0].strip_edges()
 		separated_data[1] = separated_data[1].strip_edges()
+		if separated_data[0] == "term":
+			term = separated_data[1]
+		elif separated_data[0] == "max_hours":
+			max_hours = int(separated_data[1])
+		elif separated_data[0] == "wage":
+			wage = float(separated_data[1])
 		print("Separated data: %s|%s" % [separated_data[0], separated_data[1]])
 		add_data(separated_data[0], separated_data[1])
 	
@@ -183,8 +214,8 @@ func open_file(filename : String) -> void:
 
 func save() -> void:
 	if not FileAccess.file_exists(cur_save_file):
-		print("Save file not found?")
 		save_as()
+		return
 		
 	var save_file = FileAccess.open(cur_save_file, FileAccess.WRITE)
 	#print(FileAccess.get_open_error())

@@ -1,11 +1,13 @@
-[gd_scene load_steps=9 format=3 uid="uid://dcf8acq75ktr0"]
+[gd_scene load_steps=11 format=3 uid="uid://dcf8acq75ktr0"]
 
 [ext_resource type="Script" uid="uid://8rofpeqm3occ" path="res://main.gd" id="1_xlr82"]
-[ext_resource type="Script" uid="uid://cqruuswbikbrm" path="res://file_menu.gd" id="2_1bvp3"]
-[ext_resource type="Script" uid="uid://drv8io118p5t" path="res://addbutton.gd" id="2_2ns8r"]
+[ext_resource type="Script" uid="uid://cqruuswbikbrm" path="res://Components/file_menu.gd" id="2_1bvp3"]
+[ext_resource type="Script" uid="uid://drv8io118p5t" path="res://Buttons/addbutton.gd" id="2_2ns8r"]
 [ext_resource type="Theme" uid="uid://cp1l5q3r0n17m" path="res://main_theme.tres" id="2_5wffu"]
-[ext_resource type="Script" uid="uid://de5sjtw2i0xfm" path="res://gui_main.gd" id="4_lquwl"]
-[ext_resource type="Script" uid="uid://7bxb27fgrb7x" path="res://delete_button.gd" id="5_7mycd"]
+[ext_resource type="Script" uid="uid://de5sjtw2i0xfm" path="res://Components/gui_main.gd" id="4_lquwl"]
+[ext_resource type="Script" uid="uid://7bxb27fgrb7x" path="res://Buttons/delete_button.gd" id="5_7mycd"]
+[ext_resource type="Script" uid="uid://e1xc4l1tv6bu" path="res://Components/hours_label.gd" id="7_5vw27"]
+[ext_resource type="Script" uid="uid://ccicvdgb13pcy" path="res://Components/date_label.gd" id="8_kek77"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h2yge"]
 content_margin_left = 30.0
@@ -29,10 +31,12 @@ script = ExtResource("1_xlr82")
 hours_logged_cont = NodePath("ContentsContainer/GUIMain/DataContainer/HoursLoggedCont")
 gui_main = NodePath("ContentsContainer/GUIMain")
 addbutton = NodePath("ContentsContainer/MarginBottom/VBox/ButtonHBox/addbutton")
+delete_script = ExtResource("5_7mycd")
+config_file_path = "user://settings.ini"
+save_file_path = "user://saves/"
 total = NodePath("ContentsContainer/MarginBottom/VBox/InfoVBox/Total")
 hours_left = NodePath("ContentsContainer/MarginBottom/VBox/InfoVBox/HoursLeft")
 money_earned = NodePath("ContentsContainer/MarginBottom/VBox/InfoVBox/MoneyEarned")
-config_file_path = "user://settings.ini"
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -60,15 +64,17 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_h2yge")
 [node name="File" type="PopupMenu" parent="ContentsContainer/FileMenuContainer/MenuBar"]
 disable_3d = true
 size = Vector2i(100, 116)
-item_count = 4
-item_0/text = "Open"
-item_0/id = 0
-item_1/text = "Save As"
-item_1/id = 1
-item_2/text = "Save"
-item_2/id = 2
-item_3/text = "Quit"
-item_3/id = 3
+item_count = 5
+item_0/text = "New"
+item_0/id = 4
+item_1/text = "Open"
+item_1/id = 0
+item_2/text = "Save As"
+item_2/id = 1
+item_3/text = "Save"
+item_3/id = 2
+item_4/text = "Quit"
+item_4/id = 3
 script = ExtResource("2_1bvp3")
 
 [node name="TitleLabel" type="Label" parent="ContentsContainer"]
@@ -138,6 +144,8 @@ theme = ExtResource("2_5wffu")
 text = "Add Hours"
 script = ExtResource("2_2ns8r")
 main_scene = NodePath("../../../../..")
+hours_label_script = ExtResource("7_5vw27")
+date_label_script = ExtResource("8_kek77")
 
 [node name="QuitButton" type="Button" parent="ContentsContainer/MarginBottom/VBox/ButtonHBox"]
 layout_mode = 2
