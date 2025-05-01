@@ -8,7 +8,7 @@ var quit_id : int = 3
 var main_scene : Control
 
 signal open(is_saving)
-signal save_as(is_saving)
+signal save_as()
 signal save
 signal quit
 
@@ -26,7 +26,7 @@ func _on_id_pressed(id: int) -> void:
 		open_id:
 			open.emit(false)
 		save_as_id:
-			save_as.emit(true)
+			save_as.emit()
 		save_id:
 			save.emit()
 		quit_id:

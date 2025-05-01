@@ -1,7 +1,7 @@
 extends Control
 
 @export var hours_logged_cont: VBoxContainer
-@export var aux_container: VBoxContainer
+@export var gui_main: GUIMain
 @export var addbutton: Button
 @onready var delete_script : Script = preload("res://delete_button.gd")
 @export var total: Label
@@ -23,10 +23,9 @@ func _ready() -> void:
 	# Open res://settings.ini
 	if not FileAccess.file_exists(config_file_path):
 		print("File does not exist")
-
 		var new_file : ConfigFile = ConfigFile.new()
-		new_file.save(config_file_path)
 		new_file.set_value("files", "cur_save_file", "")
+		new_file.save(config_file_path)
 	else:
 		var new_file : ConfigFile = ConfigFile.new()
 		var err = new_file.load(config_file_path)
@@ -34,46 +33,12 @@ func _ready() -> void:
 			print("Error opening file %s" % err)
 			return
 		if new_file.has_section("files"):
-			print("Value found")
 			cur_save_file = new_file.get_value("files", "cur_save_file")
-			print("Cur_save_file found: %s" % cur_save_file)
 	if not cur_save_file:
+		print("Ready: cur_save_file not ultimately found")
 		return
 	
 	open_file(cur_save_file)
-
-
-func _on_addbutton_pressed() -> void:
-	# This purely creates the window in which to enter a new Time Entry
-	var window : ConfirmationDialog = create_time_entry_window()
-	var container : VBoxContainer = VBoxContainer.new()
-	var data_field : LineEdit = LineEdit.new()
-	var date_field : LineEdit = LineEdit.new()
-	window.add_child(container)
-	container.alignment = BoxContainer.ALIGNMENT_CENTER
-	data_field.set_script(load("res://hours_label.gd"))
-	date_field.set_script(load("res://date_label.gd"))
-	container.add_child(date_field)
-	container.add_child(data_field)
-	
-	data_field.position += Vector2(10, 0)
-	window.connect("canceled", Callable(self, "cancel"))
-	window.connect("confirmed", Callable(self, "confirm_time"))
-	
-	if canceled: 
-		canceled = false
-		data_field.queue_free()
-		date_field.queue_free()
-		window.queue_free()
-		return
-	
-	await(window.confirmed)
-	add_data(date_field.text, data_field.text)
-	
-	update_total()
-	data_field.queue_free()
-	date_field.queue_free()
-	window.queue_free()
 
 
 func cancel():
@@ -116,53 +81,14 @@ func update_total():
 
 
 func add_data(date : String, time : String) -> void:
-	# This adds the actual LineEdits to display data on main page
 	is_saved = false
-	
-	# Check data
+	# Create new time entry
 	var new_time_entry : TimeEntry = TimeEntry.new()
 	new_time_entry.set_data(date, time)
 	time_entries.append(new_time_entry)
 	
-	# Prepare data to be added to GUI
-	var new_data_label : LineEdit = LineEdit.new()
-	var new_date_label : DateLabel = DateLabel.new()
-	var hbox : HBoxContainer = HBoxContainer.new()
-	hbox.add_to_group("Save")
-	
-	# Setup text display fields
-	new_date_label.text = date
-	#new_date_label.set_script(load("res://date_label.gd"))
-	new_data_label.text = time
-	new_data_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	new_date_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	
-	# Add new data to hours_logged vbox container
-	hbox.add_child(new_date_label)
-	hbox.add_child(new_data_label)
-	hours_logged_cont.add_child(hbox)
-
-	# Add a delete button
-	var new_delete_button : DeleteButton = DeleteButton.new()
-	new_delete_button.text = "Remove"
-	new_delete_button.set_script(delete_script)
-	new_delete_button.initiate(self, hbox, new_time_entry)
-	
-	aux_container.add_child(new_delete_button)
-
-
-func create_time_entry_window() -> ConfirmationDialog:
-	var new_window : ConfirmationDialog = ConfirmationDialog.new()
-	add_child(new_window)
-	new_window.mode = Window.MODE_WINDOWED
-	new_window.unresizable = true
-	new_window.min_size = Vector2i(500, 200)
-	new_window.exclusive = true
-	new_window.initial_position = Window.WINDOW_INITIAL_POSITION_CENTER_MAIN_WINDOW_SCREEN
-	new_window.dialog_text = "How much time did you work?"
-	new_window.popup_centered(Vector2i(2, 2))
-	new_window.show()
-	return new_window
+	gui_main.add_data_to_gui(new_time_entry)
+	update_total()
 
 
 func _on_quit_button_pressed() -> void:
@@ -214,7 +140,7 @@ func open_file_dialog(is_saving : bool) -> void:
 
 
 func save_file_chosen(path : String) -> void:
-	## Method to 
+	## Method to specify file name when opening save as dialog
 	var file_name : String = path
 	if not file_name.ends_with(".sav"):
 		file_name += "sav"
@@ -234,10 +160,7 @@ func open_file(filename : String) -> void:
 		## Make dialog asking to save
 		print("File is not saved when closing to open new file.")
 	# Clear previous data
-	for child in hours_logged_cont.get_children():
-		child.queue_free()
-	for child in aux_container.get_children():
-		child.queue_free()
+	gui_main.clear_contents()
 	time_entries = []
 	
 	while(true):
