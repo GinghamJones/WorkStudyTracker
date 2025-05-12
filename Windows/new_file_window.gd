@@ -37,10 +37,6 @@ func _ready() -> void:
 	vbox.add_child(wage_edit)
 	wage_edit.placeholder_text = "Enter your wage"
 	wage_edit.text_changed.connect(set_wage)
-	var file_name_edit : LineEdit = LineEdit.new()
-	vbox.add_child(file_name_edit)
-	file_name_edit.placeholder_text = "Enter filename"
-	file_name_edit.text_changed.connect(set_filename)
 
 
 func set_term(value : String) -> void:
@@ -52,11 +48,8 @@ func set_wage(value : String) -> void:
 func set_max_hours(value : String) -> void:
 	max_hours = value
 
-func set_filename(value : String) -> void:
-	filename = value
-
 
 func send_new_file() -> void:
-	new_file_created.emit(term, max_hours, wage, filename)
+	new_file_created.emit(term, max_hours, wage)
 	print("Create file emitted")
 	queue_free()

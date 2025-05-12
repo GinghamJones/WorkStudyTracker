@@ -7,10 +7,11 @@ signal return_data(line, myself)
 
 
 func initiate(parent, line, new_time_entry):
-	return_data.connect(Callable(parent, "remove_time"))
+	return_data.connect(Callable(Globals.main_scene, "remove_time"))
 	pressed.connect(Callable(self, "_on_button_pressed"))
 	corresponding_line = line
 	time_entry = new_time_entry
+	set("size_flags_horizontal", SizeFlags.SIZE_SHRINK_END)
 
 
 func _on_button_pressed():
