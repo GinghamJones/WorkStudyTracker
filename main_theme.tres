@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=7 format=3 uid="uid://cp1l5q3r0n17m"]
+[gd_resource type="Theme" load_steps=10 format=3 uid="uid://cp1l5q3r0n17m"]
 
 [ext_resource type="FontFile" uid="uid://kjrulbemh3wx" path="res://Inter-VariableFont_opsz,wght.ttf" id="1_dvppi"]
 
@@ -44,22 +44,91 @@ corner_radius_bottom_left = 2
 shadow_color = Color(0.107629, 0.144585, 0.211257, 0.6)
 shadow_size = 3
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_470mv"]
-bg_color = Color(0.925353, 0.925353, 0.925353, 1)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_470mv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a2l2q"]
-bg_color = Color(0.396889, 0.396889, 0.396889, 1)
+bg_color = Color(0.578014, 0.602272, 0.64086, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0omi4"]
+bg_color = Color(0.439356, 0.620183, 0.786066, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_58jnp"]
+content_margin_left = 30.0
+content_margin_top = 5.0
+content_margin_right = 30.0
+content_margin_bottom = 5.0
+bg_color = Color(0.277095, 0.278432, 0.272334, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_466ly"]
+bg_color = Color(0.40662, 0.611914, 0.86427, 1)
 
 [resource]
 default_font = ExtResource("1_dvppi")
 default_font_size = 18
+AcceptDialog/constants/buttons_separation = 0
+AcceptDialog/styles/panel = null
 Button/fonts/font = ExtResource("1_dvppi")
 Button/styles/focus = SubResource("StyleBoxFlat_qpiha")
 Button/styles/hover = SubResource("StyleBoxFlat_g445i")
 Button/styles/normal = SubResource("StyleBoxFlat_pjmxk")
-Label/colors/font_color = Color(1, 1, 1, 1)
-LineEdit/colors/caret_color = Color(0.201525, 0.201527, 0.201527, 1)
+Label/colors/font_color = Color(0, 0, 0, 1)
+Label/colors/font_outline_color = Color(0, 0, 0, 1)
+Label/colors/font_shadow_color = Color(0, 0, 0, 1)
+Label/constants/line_spacing = 0
+Label/constants/outline_size = 0
+Label/constants/shadow_offset_x = 0
+Label/constants/shadow_offset_y = 0
+Label/constants/shadow_outline_size = 0
+Label/font_sizes/font_size = 24
+Label/fonts/font = ExtResource("1_dvppi")
+Label/styles/normal = SubResource("StyleBoxEmpty_470mv")
+LineEdit/colors/caret_color = Color(0, 0, 0, 1)
+LineEdit/colors/clear_button_color = Color(0, 0, 0, 1)
+LineEdit/colors/clear_button_color_pressed = Color(0, 0, 0, 1)
 LineEdit/colors/font_color = Color(0, 0, 0, 1)
-LineEdit/colors/font_placeholder_color = Color(0.658341, 0.65834, 0.65834, 0.6)
-LineEdit/styles/normal = SubResource("StyleBoxFlat_470mv")
-ScrollContainer/styles/panel = SubResource("StyleBoxFlat_a2l2q")
+LineEdit/colors/font_outline_color = Color(0, 0, 0, 1)
+LineEdit/colors/font_placeholder_color = Color(0, 0, 0, 1)
+LineEdit/colors/font_selected_color = Color(0, 0, 0, 1)
+LineEdit/colors/font_uneditable_color = Color(0, 0, 0, 1)
+LineEdit/colors/selection_color = Color(0, 0, 0, 1)
+LineEdit/constants/caret_width = 0
+LineEdit/constants/minimum_character_width = 0
+LineEdit/constants/outline_size = 0
+LineEdit/font_sizes/font_size = 18
+LineEdit/fonts/font = ExtResource("1_dvppi")
+LineEdit/icons/clear = null
+LineEdit/styles/focus = null
+LineEdit/styles/normal = null
+LineEdit/styles/read_only = null
+MenuBar/colors/font_color = Color(0, 0, 0, 1)
+MenuBar/colors/font_disabled_color = Color(0, 0, 0, 1)
+MenuBar/colors/font_focus_color = Color(0, 0, 0, 1)
+MenuBar/colors/font_hover_color = Color(0, 0, 0, 1)
+MenuBar/colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+MenuBar/colors/font_outline_color = Color(0, 0, 0, 1)
+MenuBar/colors/font_pressed_color = Color(0, 0, 0, 1)
+MenuBar/constants/h_separation = 0
+MenuBar/constants/outline_size = 0
+MenuBar/font_sizes/font_size = 18
+MenuBar/fonts/font = ExtResource("1_dvppi")
+MenuBar/styles/disabled = SubResource("StyleBoxFlat_a2l2q")
+MenuBar/styles/hover = SubResource("StyleBoxFlat_0omi4")
+MenuBar/styles/normal = SubResource("StyleBoxFlat_58jnp")
+MenuBar/styles/pressed = SubResource("StyleBoxFlat_466ly")
+MenuButton/colors/font_color = Color(0, 0, 0, 1)
+MenuButton/colors/font_disabled_color = Color(0, 0, 0, 1)
+MenuButton/colors/font_focus_color = Color(0, 0, 0, 1)
+MenuButton/colors/font_hover_color = Color(0, 0, 0, 1)
+MenuButton/colors/font_outline_color = Color(0, 0, 0, 1)
+MenuButton/colors/font_pressed_color = Color(0, 0, 0, 1)
+MenuButton/constants/h_separation = 0
+MenuButton/constants/outline_size = 0
+MenuButton/font_sizes/font_size = 18
+MenuButton/fonts/font = ExtResource("1_dvppi")
+MenuButton/styles/disabled = null
+MenuButton/styles/focus = null
+MenuButton/styles/hover = null
+MenuButton/styles/normal = null
+MenuButton/styles/pressed = null
+ScrollContainer/styles/focus = null
+ScrollContainer/styles/panel = null

@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dcf8acq75ktr0"]
+[gd_scene load_steps=11 format=3 uid="uid://dcf8acq75ktr0"]
 
 [ext_resource type="Script" uid="uid://8rofpeqm3occ" path="res://main.gd" id="1_xlr82"]
 [ext_resource type="Script" uid="uid://cqruuswbikbrm" path="res://Components/file_menu.gd" id="2_1bvp3"]
@@ -9,13 +9,6 @@
 [ext_resource type="Script" uid="uid://hy37okn2f1ek" path="res://margin_bottom.gd" id="6_kek77"]
 [ext_resource type="Script" uid="uid://e1xc4l1tv6bu" path="res://Components/hours_label.gd" id="7_5vw27"]
 [ext_resource type="Script" uid="uid://ccicvdgb13pcy" path="res://Components/date_label.gd" id="8_kek77"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h2yge"]
-content_margin_left = 30.0
-content_margin_top = 5.0
-content_margin_right = 30.0
-content_margin_bottom = 5.0
-bg_color = Color(0.157919, 0.163877, 0.160499, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_qq3wf"]
 font_size = 24
@@ -65,7 +58,9 @@ theme = ExtResource("2_5wffu")
 
 [node name="MenuBar" type="MenuBar" parent="ContentsContainer/FileMenuContainer"]
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_h2yge")
+theme = ExtResource("2_5wffu")
+theme_override_colors/font_color = Color(0.681212, 0.859293, 0.969644, 1)
+theme_override_font_sizes/font_size = 24
 
 [node name="File" type="PopupMenu" parent="ContentsContainer/FileMenuContainer/MenuBar"]
 disable_3d = true
@@ -136,16 +131,22 @@ theme_override_constants/separation = 0
 [node name="Total" type="Label" parent="ContentsContainer/MarginBottom/VBox/InfoVBox"]
 layout_mode = 2
 size_flags_horizontal = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 24
 text = "Total: 0"
 
 [node name="HoursLeft" type="Label" parent="ContentsContainer/MarginBottom/VBox/InfoVBox"]
 layout_mode = 2
 size_flags_horizontal = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 24
 text = "Hours Left: 140"
 
 [node name="MoneyEarned" type="Label" parent="ContentsContainer/MarginBottom/VBox/InfoVBox"]
 layout_mode = 2
 size_flags_horizontal = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 24
 text = "Money Earned: 0"
 
 [node name="ButtonHBox" type="HBoxContainer" parent="ContentsContainer/MarginBottom/VBox"]
