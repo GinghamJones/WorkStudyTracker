@@ -1,0 +1,59 @@
+{
+	"categories": [
+		{
+			"uuid": "ca7372b8-4b1f-42ae-9e9b-0d256e3ffd0d",
+			"title": "Task",
+			"color": "70bafa"
+		}
+	],
+	"stages": [
+		{
+			"uuid": "7317eac3-1b04-4de2-a294-7e99dd23ade1",
+			"title": "Todo",
+			"tasks": [
+				"5992988e-2571-4e51-9d97-6b9cc69378e4"
+			]
+		},
+		{
+			"uuid": "703758e3-d069-4fac-958e-b98fbf3c8b76",
+			"title": "Doing",
+			"tasks": [
+				"d67e6441-1a6c-4178-8bc2-c5f95e0152c1"
+			]
+		},
+		{
+			"uuid": "07300717-23c9-4027-b673-dfd52c9a12f8",
+			"title": "Done",
+			"tasks": []
+		}
+	],
+	"tasks": [
+		{
+			"uuid": "5992988e-2571-4e51-9d97-6b9cc69378e4",
+			"title": "Make window scripts into nodes",
+			"description": "",
+			"category": "ca7372b8-4b1f-42ae-9e9b-0d256e3ffd0d",
+			"steps": []
+		},
+		{
+			"uuid": "d67e6441-1a6c-4178-8bc2-c5f95e0152c1",
+			"title": "Create rename function",
+			"description": "",
+			"category": "ca7372b8-4b1f-42ae-9e9b-0d256e3ffd0d",
+			"steps": []
+		}
+	],
+	"layout": {
+		"columns": [
+			[
+				"7317eac3-1b04-4de2-a294-7e99dd23ade1"
+			],
+			[
+				"703758e3-d069-4fac-958e-b98fbf3c8b76"
+			],
+			[
+				"07300717-23c9-4027-b673-dfd52c9a12f8"
+			]
+		]
+	}
+}

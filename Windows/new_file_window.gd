@@ -17,7 +17,7 @@ func _ready() -> void:
 	window = ConfirmationDialog.new()
 	window.title = "Create New File"
 	window.initial_position = Window.WINDOW_INITIAL_POSITION_CENTER_MAIN_WINDOW_SCREEN
-	window.size = Vector2(500, 500)
+	window.size = Vector2(500, 250)
 	add_child(window)
 	window.confirmed.connect(send_new_file)
 	window.show()

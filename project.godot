@@ -30,6 +30,10 @@ window/size/viewport_height=800
 
 project/assembly_name="SchoolHoursCalc"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/kanban_tasks/plugin.cfg")
+
 [global_group]
 
 Save=""

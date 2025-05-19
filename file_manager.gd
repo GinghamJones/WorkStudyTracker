@@ -33,3 +33,17 @@ func get_config_file() -> ConfigFile:
 		return
 	
 	return config_file
+
+
+func rename_file(new_file_name : String) -> void:
+	var cur_save_file_path : String = Globals.cur_save_file
+	if not cur_save_file_path.ends_with(".sav"):
+		cur_save_file_path = cur_save_file_path + ".sav"
+	if not cur_save_file_path.begins_with(save_folder_path):
+		cur_save_file_path = save_folder_path + cur_save_file_path
+	
+	var new_save_file_path : String = (save_folder_path + new_file_name + ".sav")
+	DirAccess.rename_absolute(cur_save_file_path, new_save_file_path)
+	print("Attempted to rename file...")
+	Globals.cur_save_file = new_save_file_path
+	Globals.main_scene.update

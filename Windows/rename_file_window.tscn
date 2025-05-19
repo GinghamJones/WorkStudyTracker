@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://rovw41hvgv1a"]
+
+[ext_resource type="Script" uid="uid://lpv6dafus4b6" path="res://Windows/rename_file_window.gd" id="1_lwuyb"]
+
+[node name="RenameFileWindow" type="AcceptDialog"]
+position = Vector2i(0, 36)
+size = Vector2i(211, 100)
+visible = true
+script = ExtResource("1_lwuyb")

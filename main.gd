@@ -15,8 +15,8 @@ var wage : float
 var term : String
 
 var canceled : bool = false
-var cur_save_file : String
-var cur_file_browser : AcceptDialog = null
+#var cur_save_file : String
+var cur_file_browser = null
 var is_quitting : bool = false
 var time_entries : Array[TimeEntry] = []
 var is_saved : bool = false
@@ -35,13 +35,13 @@ func _ready() -> void:
 		print("Error opening file %s" % err)
 		return
 	if new_file.has_section("files"):
-		cur_save_file = new_file.get_value("files", "cur_save_file")
-	if not cur_save_file:
+		Globals.cur_save_file = new_file.get_value("files", "cur_save_file")
+	if Globals.cur_save_file == "":
 		bottom_gui.hide_contents()
 		print("Ready: cur_save_file not ultimately found")
 		return
 	
-	open_file(cur_save_file)
+	open_file(Globals.cur_save_file)
 	just_started = false
 
 
@@ -78,6 +78,7 @@ func update_total():
 	total.text = "Total: " + str(new_total)
 	hours_left.text = "Hours remaining: " + str(Globals.max_hours - new_total)
 	money_earned.text = "Cash earned: $%*.*f" % [7, 2, (new_total * Globals.wage)]
+	
 	#if auto_save_enabled:
 		#save()
 
@@ -122,7 +123,7 @@ func open_new_file_dialog() -> void:
 
 
 func create_new_file(new_term : String, new_max_hours : String, new_wage : String) -> void:
-	if cur_save_file != "" and auto_save_enabled:
+	if Globals.cur_save_file != "" and auto_save_enabled:
 		save()
 	
 	Globals.term = new_term
@@ -134,41 +135,20 @@ func create_new_file(new_term : String, new_max_hours : String, new_wage : Strin
 	if not filename.ends_with(".sav"):
 		filename += ".sav"
 	bottom_gui.show_contents()
-	cur_save_file = FileManager.save_folder_path + filename
-	open_file(cur_save_file)
+	Globals.cur_save_file = FileManager.save_folder_path + filename
+	open_file(Globals.cur_save_file)
 
 
-func save_as() -> void:
-	open_file_dialog(true)
+#func save_as() -> void:
+	#open_file_dialog(true)
 
 
 func open_file_dialog(is_saving : bool) -> void:
 	var window : AcceptDialog = AcceptDialog.new()
+	window.set_script(load("res://Windows/open_file_window.gd"))
 	add_child(window)
-	window.title = "Save As"
-	window.popup_centered()
-	window.size = Vector2(300, 300)
 	cur_file_browser = window
-	
-	# One time check to make sure save directory/file exists. Create it if not.
-	if not FileAccess.file_exists(cur_save_file):
-		FileAccess.open(cur_save_file, FileAccess.WRITE)
-	if not DirAccess.dir_exists_absolute(FileManager.save_folder_path):
-		DirAccess.make_dir_absolute(FileManager.save_folder_path)
-	
-	# Loop through dir to display available save files
-	var dir = DirAccess.open(FileManager.save_folder_path)
-	if dir:
-		dir.list_dir_begin()
-		var file_name = dir.get_next()
-		var vbox : VBoxContainer = VBoxContainer.new()
-		window.add_child(vbox)
-		while file_name != "":
-			var button : Button = Button.new()
-			button.text = file_name
-			vbox.add_child(button)
-			button.pressed.connect(open_file.bind(button.text))
-			file_name = dir.get_next()
+	window.initiate(Callable(self, "open_file"))
 
 
 func open_file(filename : String) -> void:
@@ -176,7 +156,7 @@ func open_file(filename : String) -> void:
 		## If not auto-save, dialog asking to save
 		save()
 	
-	cur_save_file = filename
+	Globals.cur_save_file = filename
 	var save_file = FileManager.get_save_file(filename, FileAccess.READ)
 	if not save_file:
 		return
@@ -219,10 +199,10 @@ func open_file(filename : String) -> void:
 
 
 func save() -> void:
-	var save_file = FileManager.get_save_file(cur_save_file, FileAccess.WRITE)
+	var save_file = FileManager.get_save_file(Globals.cur_save_file, FileAccess.WRITE)
 	
 	######## Save all data #########
-	var filename : String = cur_save_file.lstrip(FileManager.save_folder_path)
+	var filename : String = Globals.cur_save_file.lstrip(FileManager.save_folder_path)
 	filename = filename.rstrip(".sav")
 	save_file.store_line("term | %s" % str(Globals.term))
 	save_file.store_line("max_hours | %s" % str(Globals.max_hours))
@@ -250,8 +230,8 @@ func _custom_action_pressed(action : String) -> void:
 
 func quit() -> void:
 	var config_file : ConfigFile = FileManager.get_config_file()
-	print("current save: %s" % cur_save_file)
-	config_file.set_value("files", "cur_save_file", cur_save_file)
+	print("current save: %s" % Globals.cur_save_file)
+	config_file.set_value("files", "cur_save_file", Globals.cur_save_file)
 	var err = config_file.save(FileManager.config_file_path)
 	if err:
 		print("Something went wrong with config file")

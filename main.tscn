@@ -64,8 +64,8 @@ theme_override_font_sizes/font_size = 24
 
 [node name="File" type="PopupMenu" parent="ContentsContainer/FileMenuContainer/MenuBar"]
 disable_3d = true
-size = Vector2i(100, 116)
-item_count = 5
+size = Vector2i(100, 170)
+item_count = 6
 item_0/text = "New"
 item_0/id = 4
 item_1/text = "Open"
@@ -74,8 +74,10 @@ item_2/text = "Rename"
 item_2/id = 1
 item_3/text = "Save"
 item_3/id = 2
-item_4/text = "Quit"
-item_4/id = 3
+item_4/text = "Delete"
+item_4/id = 5
+item_5/text = "Quit"
+item_5/id = 3
 script = ExtResource("2_1bvp3")
 
 [node name="TitleLabel" type="Label" parent="ContentsContainer"]
