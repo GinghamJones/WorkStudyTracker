@@ -25,6 +25,7 @@ FileManager="*res://file_manager.gd"
 
 window/size/viewport_width=1280
 window/size/viewport_height=800
+window/per_pixel_transparency/allowed=true
 
 [dotnet]
 

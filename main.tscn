@@ -1,10 +1,12 @@
-[gd_scene load_steps=11 format=3 uid="uid://dcf8acq75ktr0"]
+[gd_scene load_steps=13 format=3 uid="uid://dcf8acq75ktr0"]
 
 [ext_resource type="Script" uid="uid://8rofpeqm3occ" path="res://main.gd" id="1_xlr82"]
 [ext_resource type="Script" uid="uid://cqruuswbikbrm" path="res://Components/file_menu.gd" id="2_1bvp3"]
 [ext_resource type="Script" uid="uid://drv8io118p5t" path="res://Buttons/addbutton.gd" id="2_2ns8r"]
 [ext_resource type="Theme" uid="uid://cp1l5q3r0n17m" path="res://main_theme.tres" id="2_5wffu"]
+[ext_resource type="PackedScene" uid="uid://duq66nbpjqmxr" path="res://Windows/Scenes/delete_file_window.tscn" id="4_efxa6"]
 [ext_resource type="Script" uid="uid://de5sjtw2i0xfm" path="res://Components/gui_main.gd" id="4_lquwl"]
+[ext_resource type="PackedScene" uid="uid://rovw41hvgv1a" path="res://Windows/Scenes/rename_file_window.tscn" id="5_4c57u"]
 [ext_resource type="Script" uid="uid://7bxb27fgrb7x" path="res://Buttons/delete_button.gd" id="5_7mycd"]
 [ext_resource type="Script" uid="uid://hy37okn2f1ek" path="res://margin_bottom.gd" id="6_kek77"]
 [ext_resource type="Script" uid="uid://e1xc4l1tv6bu" path="res://Components/hours_label.gd" id="7_5vw27"]
@@ -26,7 +28,6 @@ script = ExtResource("1_xlr82")
 hours_logged_cont = NodePath("ContentsContainer/GUIMain/MarginContainer/DataContainer/HoursLoggedCont")
 gui_main = NodePath("ContentsContainer/GUIMain")
 addbutton = NodePath("ContentsContainer/MarginBottom/VBox/ButtonHBox/addbutton")
-delete_script = ExtResource("5_7mycd")
 title_label = NodePath("ContentsContainer/TitleLabel")
 total = NodePath("ContentsContainer/MarginBottom/VBox/InfoVBox/Total")
 hours_left = NodePath("ContentsContainer/MarginBottom/VBox/InfoVBox/HoursLeft")
@@ -79,6 +80,8 @@ item_4/id = 5
 item_5/text = "Quit"
 item_5/id = 3
 script = ExtResource("2_1bvp3")
+delete_window_scene = ExtResource("4_efxa6")
+rename_window_scene = ExtResource("5_4c57u")
 
 [node name="TitleLabel" type="Label" parent="ContentsContainer"]
 custom_minimum_size = Vector2(0, 30)

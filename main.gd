@@ -3,7 +3,7 @@ extends Control
 @export var hours_logged_cont: VBoxContainer
 @export var gui_main: GUIMain
 @export var addbutton: Button
-@export var delete_script : Script 
+#@export var delete_script : Script 
 @export var title_label : Label
 
 @export var total: Label
@@ -135,8 +135,14 @@ func create_new_file(new_term : String, new_max_hours : String, new_wage : Strin
 	if not filename.ends_with(".sav"):
 		filename += ".sav"
 	bottom_gui.show_contents()
-	Globals.cur_save_file = FileManager.save_folder_path + filename
-	open_file(Globals.cur_save_file)
+	Globals.cur_save_file = filename
+	#open_file(Globals.cur_save_file)
+	var success : bool = FileManager.create_new_file(filename)
+	if not success:
+		print("Couldn't create file")
+		return
+	
+	save()
 
 
 #func save_as() -> void:
@@ -145,7 +151,7 @@ func create_new_file(new_term : String, new_max_hours : String, new_wage : Strin
 
 func open_file_dialog(is_saving : bool) -> void:
 	var window : AcceptDialog = AcceptDialog.new()
-	window.set_script(load("res://Windows/open_file_window.gd"))
+	window.set_script(load("res://Windows/Scripts/open_file_window.gd"))
 	add_child(window)
 	cur_file_browser = window
 	window.initiate(Callable(self, "open_file"))
@@ -200,6 +206,9 @@ func open_file(filename : String) -> void:
 
 func save() -> void:
 	var save_file = FileManager.get_save_file(Globals.cur_save_file, FileAccess.WRITE)
+	if not save_file:
+		print ("Fuck you and your save file")
+		return
 	
 	######## Save all data #########
 	var filename : String = Globals.cur_save_file.lstrip(FileManager.save_folder_path)

@@ -1,6 +1,13 @@
-[gd_resource type="Theme" load_steps=10 format=3 uid="uid://cp1l5q3r0n17m"]
+[gd_resource type="Theme" load_steps=11 format=3 uid="uid://cp1l5q3r0n17m"]
 
 [ext_resource type="FontFile" uid="uid://kjrulbemh3wx" path="res://Inter-VariableFont_opsz,wght.ttf" id="1_dvppi"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_470mv"]
+bg_color = Color(0.560784, 0.603922, 0.67451, 1)
+border_width_left = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.560784, 0.603922, 0.67451, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qpiha"]
 bg_color = Color(0.112472, 0.109743, 0.151018, 1)
@@ -66,7 +73,9 @@ bg_color = Color(0.40662, 0.611914, 0.86427, 1)
 default_font = ExtResource("1_dvppi")
 default_font_size = 18
 AcceptDialog/constants/buttons_separation = 0
-AcceptDialog/styles/panel = null
+AcceptDialog/styles/embedded_border = null
+AcceptDialog/styles/embedded_unfocused_border = null
+AcceptDialog/styles/panel = SubResource("StyleBoxFlat_470mv")
 Button/fonts/font = ExtResource("1_dvppi")
 Button/styles/focus = SubResource("StyleBoxFlat_qpiha")
 Button/styles/hover = SubResource("StyleBoxFlat_g445i")

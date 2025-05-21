@@ -1,8 +1,9 @@
 class_name FileMenu
 extends PopupMenu
 
+@export var delete_window_scene : PackedScene
+@export var rename_window_scene : PackedScene
 
-## Need to implement Rename and Delete ##
 var open_id : int = 0
 var rename_id : int = 1
 var save_id : int = 2
@@ -45,27 +46,11 @@ func _on_id_pressed(id: int) -> void:
 
 
 func create_rename_window() -> void:
-	#var file = FileAccess.open(Globals.cur_save_file, FileAccess.READ_WRITE)
-	var rename_window = preload("res://Windows/rename_file_window.tscn")
-	var window : RenameFileWindow = rename_window.instantiate()
+	#var rename_window = rename_window_scene.ins
+	var window : RenameFileWindow = rename_window_scene.instantiate()
 	add_child(window)
-	#window.show()
-	#cur_window = window
-	#window.move_to_center()
-	#var lineedit : LineEdit = LineEdit.new()
-	#lineedit.placeholder_text = "Enter new name"
-	#window.add_child(lineedit)
-
-
-#func new_filename_chosen() -> void:
-	#var new_name : String = ""
-	#for c in cur_window.get_children():
-		#if c is LineEdit:
-			#new_name = c.text
 
 
 func create_delete_window() -> void:
-	var window : AcceptDialog = AcceptDialog.new()
+	var window : DeleteFileWindow = delete_window_scene.instantiate()
 	add_child(window)
-	window.set_script(load("res://Windows/delete_file_window.gd"))
-	window.initiate()

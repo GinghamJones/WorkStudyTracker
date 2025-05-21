@@ -1,0 +1,40 @@
+[gd_scene load_steps=4 format=3 uid="uid://rovw41hvgv1a"]
+
+[ext_resource type="Theme" uid="uid://cp1l5q3r0n17m" path="res://main_theme.tres" id="1_4a384"]
+[ext_resource type="Script" uid="uid://lpv6dafus4b6" path="res://Windows/Scripts/rename_file_window.gd" id="2_73la7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_chh2i"]
+bg_color = Color(0.00784314, 0.266667, 1, 0.313726)
+border_width_bottom = 2
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+
+[node name="RenameFileWindow" type="AcceptDialog"]
+transparent_bg = true
+title = "Rename Current File"
+initial_position = 1
+size = Vector2i(250, 130)
+visible = true
+exclusive = false
+borderless = true
+transparent = true
+theme = ExtResource("1_4a384")
+script = ExtResource("2_73la7")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_left = 5.0
+offset_right = 245.0
+offset_bottom = 92.0
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_chh2i")
+text = "Rename File"
+horizontal_alignment = 1
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+placeholder_text = "Enter new name"
+
+[connection signal="confirmed" from="." to="." method="change_name"]

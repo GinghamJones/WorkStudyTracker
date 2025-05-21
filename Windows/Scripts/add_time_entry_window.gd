@@ -12,11 +12,10 @@ func _ready() -> void:
 	popup_centered(Vector2i(2, 2))
 	show()
 	for c in get_children():
-		print(c)
 		if c is VBoxContainer:
 			for c2 in c.get_children():
 				if c2 is LineEdit:
-					print(c.placeholder_text)
+
 					c.grab_focus()
 
 
