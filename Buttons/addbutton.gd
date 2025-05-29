@@ -29,7 +29,7 @@ func _on_addbutton_pressed() -> void:
 
 func create_time_entry_window() -> void:
 	window = ConfirmationDialog.new()
-	window.set_script(load("res://Windows/add_time_entry_window.gd"))
+	window.set_script(load("res://Windows/Scripts/add_time_entry_window.gd"))
 	add_child(window)
 
 

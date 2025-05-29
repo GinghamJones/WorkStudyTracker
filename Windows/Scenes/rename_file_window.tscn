@@ -9,7 +9,7 @@ border_width_bottom = 2
 expand_margin_left = 5.0
 expand_margin_right = 5.0
 
-[node name="RenameFileWindow" type="AcceptDialog"]
+[node name="RenameFileWindow" type="AcceptDialog" node_paths=PackedStringArray("new_name_edit")]
 transparent_bg = true
 title = "Rename Current File"
 initial_position = 1
@@ -20,6 +20,7 @@ borderless = true
 transparent = true
 theme = ExtResource("1_4a384")
 script = ExtResource("2_73la7")
+new_name_edit = NodePath("VBoxContainer/LineEdit")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 offset_left = 5.0

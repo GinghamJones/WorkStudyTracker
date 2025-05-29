@@ -24,10 +24,29 @@ func _ready():
 func delete_file(file_to_delete : String) -> void:
 	var file_to_delete_path : String = FileManager.get_filename_as_full_path(file_to_delete)
 	var cur_save_file_path : String = FileManager.get_filename_as_full_path(Globals.cur_save_file)
+	
+	# Show confirmation to delete file
+	var popup_window : ConfirmationDialog = ConfirmationDialog.new()
+	add_child(popup_window)
+	popup_window.initial_position = Window.WINDOW_INITIAL_POSITION_CENTER_MAIN_WINDOW_SCREEN
+	popup_window.always_on_top = true
+	popup_window.show()
+	popup_window.dialog_text = "Are you sure you want to delete %s?" % file_to_delete
+	var is_cur_save_file : bool = false
 	if file_to_delete_path == cur_save_file_path:
-		print("Attempting to delete cur save file. Add code to handle this")
-		return
+		is_cur_save_file = true
+		popup_window.dialog_text += "\nThis is your current save file."
+		
+	popup_window.confirmed.connect(confirm_delete_file.bind(file_to_delete_path, popup_window, is_cur_save_file))
+
+
+func confirm_delete_file(file_to_delete_path : String, popup_window : ConfirmationDialog, is_cur_save_file : bool) -> void:
 	DirAccess.remove_absolute(file_to_delete_path)
+	Globals.cur_save_file = ""
+	popup_window.queue_free()
+	if is_cur_save_file:
+		Globals.main_scene.gui_main.clear_contents()
+		Globals.main_scene.bottom_gui.hide_contents() # A helluva hack
 	queue_free()
 
 

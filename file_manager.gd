@@ -51,8 +51,12 @@ func rename_file(new_file_name : String) -> void:
 	DirAccess.rename_absolute(cur_save_file_path, new_save_file_path)
 	DirAccess.remove_absolute(cur_save_file_path)
 	
+
+	#Globals.main_scene.open_file(new_save_file_path)
+	Globals.term = new_file_name
 	Globals.cur_save_file = new_save_file_path
-	Globals.main_scene.update_total()
+	Globals.main_scene.save()
+	Globals.main_scene.open_file(new_save_file_path)
 
 
 func get_filename_as_full_path(filename : String) -> String:

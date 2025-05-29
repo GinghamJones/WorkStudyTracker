@@ -1,6 +1,8 @@
 class_name RenameFileWindow
 extends AcceptDialog
 
+@export var new_name_edit : LineEdit
+
 
 func _ready() -> void:
 	show()
@@ -8,8 +10,5 @@ func _ready() -> void:
 
 
 func change_name() -> void:
-	for c in get_children():
-		if c is LineEdit:
-			FileManager.rename_file(c.text)
-			print("Called rename file in FileManager")
-			queue_free()
+	FileManager.rename_file($VBoxContainer/LineEdit.text)
+	queue_free()

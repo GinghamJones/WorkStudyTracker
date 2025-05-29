@@ -94,29 +94,6 @@ func add_data(date : String, time : String) -> void:
 	update_total()
 
 
-func _on_quit_button_pressed() -> void:
-	# Setup confirmation window
-	if not is_saved:
-		var popup : ConfirmationDialog = ConfirmationDialog.new()
-		add_child(popup)
-		popup.popup_centered(Vector2i(2, 2))
-		
-		popup.dialog_text = "Do you want to save?"
-		popup.cancel_button_text = "Cancel"
-		popup.ok_button_text = "Save"
-		popup.add_button("Quit Without Saving", false, "quit")
-		
-		popup.confirmed.connect(Callable(self, "save"))
-		popup.canceled.connect(Callable(self, "cancel_dialogue"))
-		popup.custom_action.connect(_custom_action_pressed)
-		
-		popup.show()
-	else:
-		print("_on_quit_button_pressed file already saved")
-		quit()
-	is_quitting = true
-
-
 func open_new_file_dialog() -> void:
 	var new_file_dialog : NewFileWindow = NewFileWindow.new()
 	add_child(new_file_dialog)
@@ -145,10 +122,6 @@ func create_new_file(new_term : String, new_max_hours : String, new_wage : Strin
 	save()
 
 
-#func save_as() -> void:
-	#open_file_dialog(true)
-
-
 func open_file_dialog(is_saving : bool) -> void:
 	var window : AcceptDialog = AcceptDialog.new()
 	window.set_script(load("res://Windows/Scripts/open_file_window.gd"))
@@ -158,9 +131,10 @@ func open_file_dialog(is_saving : bool) -> void:
 
 
 func open_file(filename : String) -> void:
-	if not is_saved and not just_started and Globals.auto_save_enabled:
-		## If not auto-save, dialog asking to save
-		save()
+	######## Needs Work #############
+	#if not is_saved and not just_started and Globals.auto_save_enabled:
+		### If not auto-save, dialog asking to save
+		#save()
 	
 	Globals.cur_save_file = filename
 	var save_file = FileManager.get_save_file(filename, FileAccess.READ)
@@ -199,6 +173,7 @@ func open_file(filename : String) -> void:
 	
 	update_total()
 	bottom_gui.show_contents()
+	gui_main.show()
 	
 	if cur_file_browser:
 		cur_file_browser.queue_free()
@@ -207,7 +182,7 @@ func open_file(filename : String) -> void:
 func save() -> void:
 	var save_file = FileManager.get_save_file(Globals.cur_save_file, FileAccess.WRITE)
 	if not save_file:
-		print ("Fuck you and your save file")
+		print ("Error retrieving %s" % Globals.cur_save_file)
 		return
 	
 	######## Save all data #########
@@ -235,6 +210,29 @@ func save() -> void:
 func _custom_action_pressed(action : String) -> void:
 	if action == "quit":
 		quit()
+
+
+func _on_quit_button_pressed() -> void:
+	# Setup confirmation window
+	if not is_saved:
+		var popup : ConfirmationDialog = ConfirmationDialog.new()
+		add_child(popup)
+		popup.popup_centered(Vector2i(2, 2))
+		
+		popup.dialog_text = "Do you want to save?"
+		popup.cancel_button_text = "Cancel"
+		popup.ok_button_text = "Save"
+		popup.add_button("Quit Without Saving", false, "quit")
+		
+		popup.confirmed.connect(Callable(self, "save"))
+		popup.canceled.connect(Callable(self, "cancel_dialogue"))
+		popup.custom_action.connect(_custom_action_pressed)
+		
+		popup.show()
+	else:
+		print("_on_quit_button_pressed file already saved")
+		quit()
+	is_quitting = true
 
 
 func quit() -> void:

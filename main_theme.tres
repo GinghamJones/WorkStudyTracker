@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=11 format=3 uid="uid://cp1l5q3r0n17m"]
+[gd_resource type="Theme" load_steps=9 format=3 uid="uid://cp1l5q3r0n17m"]
 
 [ext_resource type="FontFile" uid="uid://kjrulbemh3wx" path="res://Inter-VariableFont_opsz,wght.ttf" id="1_dvppi"]
 
@@ -53,12 +53,6 @@ shadow_size = 3
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_470mv"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a2l2q"]
-bg_color = Color(0.578014, 0.602272, 0.64086, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0omi4"]
-bg_color = Color(0.439356, 0.620183, 0.786066, 1)
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_58jnp"]
 content_margin_left = 30.0
 content_margin_top = 5.0
@@ -109,7 +103,7 @@ LineEdit/icons/clear = null
 LineEdit/styles/focus = null
 LineEdit/styles/normal = null
 LineEdit/styles/read_only = null
-MenuBar/colors/font_color = Color(0, 0, 0, 1)
+MenuBar/colors/font_color = Color(0.480052, 0.677761, 0.709101, 1)
 MenuBar/colors/font_disabled_color = Color(0, 0, 0, 1)
 MenuBar/colors/font_focus_color = Color(0, 0, 0, 1)
 MenuBar/colors/font_hover_color = Color(0, 0, 0, 1)
@@ -118,10 +112,8 @@ MenuBar/colors/font_outline_color = Color(0, 0, 0, 1)
 MenuBar/colors/font_pressed_color = Color(0, 0, 0, 1)
 MenuBar/constants/h_separation = 0
 MenuBar/constants/outline_size = 0
-MenuBar/font_sizes/font_size = 18
+MenuBar/font_sizes/font_size = 24
 MenuBar/fonts/font = ExtResource("1_dvppi")
-MenuBar/styles/disabled = SubResource("StyleBoxFlat_a2l2q")
-MenuBar/styles/hover = SubResource("StyleBoxFlat_0omi4")
 MenuBar/styles/normal = SubResource("StyleBoxFlat_58jnp")
 MenuBar/styles/pressed = SubResource("StyleBoxFlat_466ly")
 MenuButton/colors/font_color = Color(0, 0, 0, 1)

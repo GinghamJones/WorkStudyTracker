@@ -60,8 +60,6 @@ theme = ExtResource("2_5wffu")
 [node name="MenuBar" type="MenuBar" parent="ContentsContainer/FileMenuContainer"]
 layout_mode = 2
 theme = ExtResource("2_5wffu")
-theme_override_colors/font_color = Color(0.681212, 0.859293, 0.969644, 1)
-theme_override_font_sizes/font_size = 24
 
 [node name="File" type="PopupMenu" parent="ContentsContainer/FileMenuContainer/MenuBar"]
 disable_3d = true
