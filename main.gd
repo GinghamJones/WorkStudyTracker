@@ -71,9 +71,10 @@ func remove_time(line_to_remove, delete_button : DeleteButton):
 
 
 func update_total():
-	var new_total : float = 0
-	for entry in time_entries:
-		new_total += entry.time
+	# var new_total : float = 0
+	# for entry in time_entries:
+	# 	new_total += entry.time
+	var new_total = TimeEntryManager.get_total_hours()
 	
 	total.text = "Total: " + str(new_total)
 	hours_left.text = "Hours remaining: " + str(Globals.max_hours - new_total)
@@ -83,15 +84,15 @@ func update_total():
 		#save()
 
 
-func add_data(date : String, time : String) -> void:
-	is_saved = false
-	# Create new time entry
-	var new_time_entry : TimeEntry = TimeEntry.new()
-	new_time_entry.set_data(date, time)
-	time_entries.append(new_time_entry)
+# func add_data(date : String, time : String) -> void:
+# 	is_saved = false
+# 	# Create new time entry
+# 	var new_time_entry : TimeEntry = TimeEntry.new()
+# 	new_time_entry.set_data(date, time)
+# 	time_entries.append(new_time_entry)
 	
-	gui_main.add_data_to_gui(new_time_entry)
-	update_total()
+# 	gui_main.add_data_to_gui(new_time_entry)
+# 	update_total()
 
 
 func open_new_file_dialog() -> void:
@@ -143,7 +144,7 @@ func open_file(filename : String) -> void:
 	
 	# Clear previous data
 	gui_main.clear_contents()
-	time_entries = []
+	# time_entries = []
 	
 	# Create main display from save data
 	while(true):
@@ -167,7 +168,7 @@ func open_file(filename : String) -> void:
 			Globals.wage = float(separated_data[1])
 			continue
 		else:
-			add_data(separated_data[0], separated_data[1])
+			TimeEntryManager.add_entry(separated_data[0], separated_data[1])
 	
 	save_file.close()
 	

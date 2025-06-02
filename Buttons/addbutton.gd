@@ -38,7 +38,8 @@ func cancel() -> void:
 
 
 func confirm() -> void:
-	main_scene.add_data(date_field.text, hours_field.text)
+	# main_scene.add_data(date_field.text, hours_field.text)
+	TimeEntryManager.add_entry(date_field.text, hours_field.text)
 	
 	hours_field.queue_free()
 	date_field.queue_free()
