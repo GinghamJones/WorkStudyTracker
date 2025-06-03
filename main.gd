@@ -22,11 +22,15 @@ var time_entries : Array[TimeEntry] = []
 var is_saved : bool = false
 var auto_save_enabled : bool = true
 var just_started : bool = true # Logs if program is just opened
+var file_is_open : bool = false
 
 
 func _ready() -> void:
+	# Needed for syncing initializations
+	# SignalManager.register_listener(self)
 	Globals.main_scene = self
 	just_started = true
+	SignalManager.mark_ready()
 	
 	# Open res://settings.ini
 	var new_file : ConfigFile = FileManager.get_config_file()
@@ -45,29 +49,32 @@ func _ready() -> void:
 	just_started = false
 
 
+# func _on_system_ready() -> void:
+# 	pass	
+
 func cancel():
 	print("canceled")
 	canceled = true
 	return
 
 
-func remove_time(line_to_remove, delete_button : DeleteButton):
-	# Remove entry in time_entries array
-	if time_entries.has(delete_button.time_entry):
-		for index in time_entries.size():
-			if time_entries[index] == delete_button.time_entry:
-				time_entries.remove_at(index)
-				break
-	else:
-		print("Teh fuck happened to the time_entry???")
+# func remove_time(line_to_remove, delete_button : DeleteButton):
+# 	# Remove entry in time_entries array
+# 	if time_entries.has(delete_button.time_entry):
+# 		for index in time_entries.size():
+# 			if time_entries[index] == delete_button.time_entry:
+# 				time_entries.remove_at(index)
+# 				break
+# 	else:
+# 		print("Teh fuck happened to the time_entry???")
 	
-	# Takes corresponding vbox container w/ lineedits and delete button and removes them
-	for c in line_to_remove.get_children():
-		c.text = "0"
-		c.queue_free()
-	line_to_remove.queue_free()
-	delete_button.queue_free()
-	update_total()
+# 	# Takes corresponding vbox container w/ lineedits and delete button and removes them
+# 	for c in line_to_remove.get_children():
+# 		c.text = "0"
+# 		c.queue_free()
+# 	line_to_remove.queue_free()
+# 	delete_button.queue_free()
+# 	update_total()
 
 
 func update_total():
@@ -108,11 +115,9 @@ func create_new_file(new_term : String, new_max_hours : String, new_wage : Strin
 	Globals.max_hours = int(new_max_hours)
 	Globals.wage = float(new_wage)
 	
-	gui_main.clear_contents()
 	var filename : String = new_term
-	if not filename.ends_with(".sav"):
-		filename += ".sav"
-	bottom_gui.show_contents()
+	# if not filename.ends_with(".sav"):
+	# 	filename += ".sav"
 	Globals.cur_save_file = filename
 	#open_file(Globals.cur_save_file)
 	var success : bool = FileManager.create_new_file(filename)
@@ -121,6 +126,7 @@ func create_new_file(new_term : String, new_max_hours : String, new_wage : Strin
 		return
 	
 	save()
+	open_file(Globals.cur_save_file)
 
 
 func open_file_dialog(is_saving : bool) -> void:
@@ -140,10 +146,13 @@ func open_file(filename : String) -> void:
 	Globals.cur_save_file = filename
 	var save_file = FileManager.get_save_file(filename, FileAccess.READ)
 	if not save_file:
+		file_is_open = false
+		GuiManager.hide_bottom_gui()
 		return
 	
+	file_is_open = true
 	# Clear previous data
-	gui_main.clear_contents()
+	GuiManager.clear_gui_main()
 	# time_entries = []
 	
 	# Create main display from save data
@@ -160,21 +169,21 @@ func open_file(filename : String) -> void:
 		if separated_data[0] == "term":
 			Globals.term = separated_data[1]
 			title_label.text = Globals.term
-			continue
+			# continue
 		elif separated_data[0] == "max_hours":
 			Globals.max_hours = int(separated_data[1])
-			continue
+			# continue
 		elif separated_data[0] == "wage":
 			Globals.wage = float(separated_data[1])
-			continue
+			# continue
 		else:
 			TimeEntryManager.add_entry(separated_data[0], separated_data[1])
 	
 	save_file.close()
 	
 	update_total()
-	bottom_gui.show_contents()
-	gui_main.show()
+	GuiManager.show_bottom_gui()
+	GuiManager.show_gui_main()
 	
 	if cur_file_browser:
 		cur_file_browser.queue_free()
@@ -187,13 +196,11 @@ func save() -> void:
 		return
 	
 	######## Save all data #########
-	var filename : String = Globals.cur_save_file.lstrip(FileManager.save_folder_path)
-	filename = filename.rstrip(".sav")
 	save_file.store_line("term | %s" % str(Globals.term))
 	save_file.store_line("max_hours | %s" % str(Globals.max_hours))
 	save_file.store_line("wage | %s" % str(Globals.wage))
 
-	for entry in time_entries:
+	for entry in TimeEntryManager.get_entries():
 		var data : Array[String] = entry.get_data_as_text()
 		save_file.store_line(data[0] + "|" + data[1])
 	################################
@@ -206,6 +213,11 @@ func save() -> void:
 	if is_quitting:
 		is_quitting = false
 		quit()
+
+
+func _on_file_deleted() -> void:
+	gui_main.clear_contents()
+	bottom_gui.hide()
 
 
 func _custom_action_pressed(action : String) -> void:

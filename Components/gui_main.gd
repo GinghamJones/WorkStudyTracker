@@ -30,7 +30,7 @@ func add_data_to_gui(new_time_entry : TimeEntry) -> void:
 	var new_delete_button : DeleteButton = DeleteButton.new()
 	new_delete_button.text = "Remove"
 	new_delete_button.set_script(delete_script)
-	new_delete_button.initiate(self, hbox, new_time_entry)
+	new_delete_button.initiate(hbox, new_time_entry)
 	
 	aux_cont.add_child(new_delete_button)
 

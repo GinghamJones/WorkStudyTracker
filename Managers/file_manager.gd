@@ -3,6 +3,14 @@ extends Node
 var config_file_path : String = "user://settings.ini"
 var save_folder_path : String = "user://saves/"
 
+signal file_deleted
+
+func _ready() -> void:
+	SignalManager.register_listener(self)
+
+
+func _on_system_ready() -> void:
+	file_deleted.connect(Globals.main_scene._on_file_deleted)
 
 func create_new_file(filename : String) -> bool:
 	var filename_full_path : String = get_filename_as_full_path(filename)
@@ -57,6 +65,15 @@ func rename_file(new_file_name : String) -> void:
 	Globals.cur_save_file = new_save_file_path
 	Globals.main_scene.save()
 	Globals.main_scene.open_file(new_save_file_path)
+
+
+func delete_file(file_to_delete : String, is_cur_save_file : bool) -> void:
+	DirAccess.remove_absolute(file_to_delete)
+	Globals.cur_save_file = ""
+	if is_cur_save_file:
+		Globals.main_scene.gui_main.clear_contents()
+		Globals.main_scene.bottom_gui.hide_contents() # A helluva hack
+
 
 
 func get_filename_as_full_path(filename : String) -> String:

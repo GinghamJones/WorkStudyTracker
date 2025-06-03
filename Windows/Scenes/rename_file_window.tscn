@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://rovw41hvgv1a"]
 
-[ext_resource type="Theme" uid="uid://cp1l5q3r0n17m" path="res://main_theme.tres" id="1_4a384"]
+[ext_resource type="Theme" uid="uid://cp1l5q3r0n17m" path="res://Theming/main_theme.tres" id="1_4a384"]
 [ext_resource type="Script" uid="uid://lpv6dafus4b6" path="res://Windows/Scripts/rename_file_window.gd" id="2_73la7"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_chh2i"]
@@ -25,7 +25,7 @@ new_name_edit = NodePath("VBoxContainer/LineEdit")
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 offset_left = 5.0
 offset_right = 245.0
-offset_bottom = 92.0
+offset_bottom = 94.0
 
 [node name="Label" type="Label" parent="VBoxContainer"]
 layout_mode = 2

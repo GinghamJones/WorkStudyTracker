@@ -3,12 +3,12 @@
 [ext_resource type="Script" uid="uid://8rofpeqm3occ" path="res://main.gd" id="1_xlr82"]
 [ext_resource type="Script" uid="uid://cqruuswbikbrm" path="res://Components/file_menu.gd" id="2_1bvp3"]
 [ext_resource type="Script" uid="uid://drv8io118p5t" path="res://Buttons/addbutton.gd" id="2_2ns8r"]
-[ext_resource type="Theme" uid="uid://cp1l5q3r0n17m" path="res://main_theme.tres" id="2_5wffu"]
+[ext_resource type="Theme" uid="uid://cp1l5q3r0n17m" path="res://Theming/main_theme.tres" id="2_5wffu"]
 [ext_resource type="PackedScene" uid="uid://duq66nbpjqmxr" path="res://Windows/Scenes/delete_file_window.tscn" id="4_efxa6"]
 [ext_resource type="Script" uid="uid://de5sjtw2i0xfm" path="res://Components/gui_main.gd" id="4_lquwl"]
 [ext_resource type="PackedScene" uid="uid://rovw41hvgv1a" path="res://Windows/Scenes/rename_file_window.tscn" id="5_4c57u"]
 [ext_resource type="Script" uid="uid://7bxb27fgrb7x" path="res://Buttons/delete_button.gd" id="5_7mycd"]
-[ext_resource type="Script" uid="uid://hy37okn2f1ek" path="res://margin_bottom.gd" id="6_kek77"]
+[ext_resource type="Script" uid="uid://hy37okn2f1ek" path="res://Components/margin_bottom.gd" id="6_kek77"]
 [ext_resource type="Script" uid="uid://e1xc4l1tv6bu" path="res://Components/hours_label.gd" id="7_5vw27"]
 [ext_resource type="Script" uid="uid://ccicvdgb13pcy" path="res://Components/date_label.gd" id="8_kek77"]
 
@@ -42,7 +42,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.462347, 0.451989, 0.450608, 1)
+color = Color(0.206045, 0.200059, 0.199261, 1)
 
 [node name="ContentsContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -55,7 +55,6 @@ grow_vertical = 2
 [node name="FileMenuContainer" type="MarginContainer" parent="ContentsContainer"]
 layout_mode = 2
 size_flags_vertical = 0
-theme = ExtResource("2_5wffu")
 
 [node name="MenuBar" type="MenuBar" parent="ContentsContainer/FileMenuContainer"]
 layout_mode = 2
@@ -89,7 +88,7 @@ text = "Work Study Hours Tracker"
 label_settings = SubResource("LabelSettings_qq3wf")
 horizontal_alignment = 1
 
-[node name="GUIMain" type="ScrollContainer" parent="ContentsContainer" node_paths=PackedStringArray("hours_logged_cont", "aux_cont")]
+[node name="GUIMain" type="ScrollContainer" parent="ContentsContainer" node_paths=PackedStringArray("hours_logged_cont", "aux_cont") groups=["GUIMain"]]
 custom_minimum_size = Vector2(0, 225)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -118,7 +117,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 
-[node name="MarginBottom" type="MarginContainer" parent="ContentsContainer"]
+[node name="MarginBottom" type="MarginContainer" parent="ContentsContainer" groups=["GUIBottom"]]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_bottom = 10

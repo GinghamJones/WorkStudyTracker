@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://kjrulbemh3wx"
-path="res://.godot/imported/Inter-VariableFont_opsz,wght.ttf-fe0c5ed86a35c3ffb47eaf236f7cd39d.fontdata"
+uid="uid://4565x8g5ino8"
+path="res://.godot/imported/Ubuntu-BoldItalic.ttf-f423b753afe828b5fc3bb5607bb66a6a.fontdata"
 
 [deps]
 
-source_file="res://Inter-VariableFont_opsz,wght.ttf"
-dest_files=["res://.godot/imported/Inter-VariableFont_opsz,wght.ttf-fe0c5ed86a35c3ffb47eaf236f7cd39d.fontdata"]
+source_file="res://Theming/Ubuntu/Ubuntu-BoldItalic.ttf"
+dest_files=["res://.godot/imported/Ubuntu-BoldItalic.ttf-f423b753afe828b5fc3bb5607bb66a6a.fontdata"]
 
 [params]
 
@@ -22,7 +22,7 @@ msdf_size=48
 allow_system_fallback=true
 force_autohinter=false
 hinting=1
-subpixel_positioning=1
+subpixel_positioning=4
 keep_rounding_remainders=true
 oversampling=0.0
 Fallbacks=null

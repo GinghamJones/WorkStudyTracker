@@ -20,13 +20,16 @@ signal delete
 
 
 func _ready() -> void:
-	await(get_tree().physics_frame)
+	SignalManager.register_listener(self)
+
+
+func _on_system_ready() -> void:
 	var main_scene = Globals.main_scene
 	open.connect(Callable(main_scene, "open_file_dialog"))
 	save.connect(Callable(main_scene, "save"))
 	quit.connect(Callable(main_scene, "quit"))
 	new.connect(Callable(main_scene, "open_new_file_dialog"))
-	delete.connect(Callable(main_scene, "delete_file"))
+	delete.connect(Callable(TimeEntryManager.remove_entry))
 
 
 func _on_id_pressed(id: int) -> void:

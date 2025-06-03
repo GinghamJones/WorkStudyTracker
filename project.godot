@@ -22,6 +22,8 @@ Globals="*res://globals.gd"
 FileManager="*res://Managers/file_manager.gd"
 TimeEntryManager="*res://Managers/time_entry_manager.gd"
 WindowManager="*res://Managers/window_manager.tscn"
+SignalManager="*res://Managers/signal_manager.gd"
+GuiManager="*res://Managers/gui_manager.gd"
 
 [display]
 

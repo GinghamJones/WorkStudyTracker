@@ -41,8 +41,7 @@ func delete_file(file_to_delete : String) -> void:
 
 
 func confirm_delete_file(file_to_delete_path : String, new_window : ConfirmationDialog, is_cur_save_file : bool) -> void:
-	DirAccess.remove_absolute(file_to_delete_path)
-	Globals.cur_save_file = ""
+	FileManager.delete_file(file_to_delete_path, is_cur_save_file)
 	new_window.queue_free()
 	if is_cur_save_file:
 		Globals.main_scene.gui_main.clear_contents()

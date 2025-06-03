@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://duq66nbpjqmxr"]
 
-[ext_resource type="Theme" uid="uid://cp1l5q3r0n17m" path="res://main_theme.tres" id="1_0icus"]
+[ext_resource type="Theme" uid="uid://cp1l5q3r0n17m" path="res://Theming/main_theme.tres" id="1_0icus"]
 [ext_resource type="Script" uid="uid://rt4l5igubokl" path="res://Windows/Scripts/delete_file_window.gd" id="1_k77c6"]
 
 [node name="DeleteFileWindow" type="AcceptDialog"]
@@ -18,7 +18,7 @@ script = ExtResource("1_k77c6")
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 offset_left = 5.0
 offset_right = 295.0
-offset_bottom = 262.0
+offset_bottom = 264.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
 layout_mode = 2
