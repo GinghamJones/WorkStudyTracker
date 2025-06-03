@@ -30,3 +30,5 @@ func show_gui_main() -> void:
 
 func clear_gui_main() -> void:
 	gui_main.clear_contents()
+	gui_main.hide()
+	gui_main.process_mode = Node.PROCESS_MODE_DISABLED

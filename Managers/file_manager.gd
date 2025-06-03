@@ -12,6 +12,7 @@ func _ready() -> void:
 func _on_system_ready() -> void:
 	file_deleted.connect(Globals.main_scene._on_file_deleted)
 
+
 func create_new_file(filename : String) -> bool:
 	var filename_full_path : String = get_filename_as_full_path(filename)
 	var file = FileAccess.open(filename_full_path, FileAccess.WRITE)
@@ -59,12 +60,54 @@ func rename_file(new_file_name : String) -> void:
 	DirAccess.rename_absolute(cur_save_file_path, new_save_file_path)
 	DirAccess.remove_absolute(cur_save_file_path)
 	
-
 	#Globals.main_scene.open_file(new_save_file_path)
 	Globals.term = new_file_name
 	Globals.cur_save_file = new_save_file_path
 	Globals.main_scene.save()
-	Globals.main_scene.open_file(new_save_file_path)
+	FileManager.open_file(new_save_file_path)
+
+
+func open_file(filename : String) -> void:
+	Globals.cur_save_file = filename
+	var save_file = FileManager.get_save_file(filename, FileAccess.READ)
+	if not save_file:
+		GuiManager.hide_bottom_gui()
+		return
+	
+	# Clear previous data
+	GuiManager.clear_gui_main()
+	TimeEntryManager.clear_all_entries()
+	# time_entries = []
+	
+	# Create main display from save data
+	while(true):
+		# Get the data from save file
+		var line : String = save_file.get_line()
+		if not line:
+			break
+		var separated_data : PackedStringArray = line.split("|")
+		separated_data[0] = separated_data[0].strip_edges()
+		separated_data[1] = separated_data[1].strip_edges()
+		
+		# Assign variables from extracted data
+		if separated_data[0] == "term":
+			Globals.term = separated_data[1]
+
+			# continue
+		elif separated_data[0] == "max_hours":
+			Globals.max_hours = int(separated_data[1])
+			# continue
+		elif separated_data[0] == "wage":
+			Globals.wage = float(separated_data[1])
+			# continue
+		else:
+			TimeEntryManager.add_entry(separated_data[0], separated_data[1])
+	
+	save_file.close()
+	
+	Globals.main_scene.update_total()
+	GuiManager.show_bottom_gui()
+	GuiManager.show_gui_main()
 
 
 func delete_file(file_to_delete : String, is_cur_save_file : bool) -> void:

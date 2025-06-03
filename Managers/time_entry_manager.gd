@@ -29,7 +29,10 @@ func remove_entry(delete_button : DeleteButton) -> void:
 	delete_button.corresponding_line.queue_free()
 	delete_button.queue_free()
 	deleted_data.emit()
-	
+
+
+func clear_all_entries() -> void:
+	entries.clear()
 
 
 func get_total_hours() -> float:

@@ -1,4 +1,4 @@
-class_name NewFileWindow
+
 extends Node
 
 var window : ConfirmationDialog

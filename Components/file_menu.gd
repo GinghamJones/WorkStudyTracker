@@ -3,6 +3,7 @@ extends PopupMenu
 
 @export var delete_window_scene : PackedScene
 @export var rename_window_scene : PackedScene
+@export var open_window_scene : PackedScene
 
 var open_id : int = 0
 var rename_id : int = 1
@@ -35,7 +36,7 @@ func _on_system_ready() -> void:
 func _on_id_pressed(id: int) -> void:
 	match id:
 		open_id:
-			open.emit(false)
+			create_open_window()
 		rename_id:
 			create_rename_window()
 		save_id:
@@ -46,6 +47,11 @@ func _on_id_pressed(id: int) -> void:
 			new.emit()
 		delete_id:
 			create_delete_window()
+
+
+func create_open_window() -> void:
+	var window : OpenFileWindow = open_window_scene.instantiate()
+	add_child(window)
 
 
 func create_rename_window() -> void:

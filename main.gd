@@ -45,7 +45,7 @@ func _ready() -> void:
 		print("Ready: cur_save_file not ultimately found")
 		return
 	
-	open_file(Globals.cur_save_file)
+	FileManager.open_file(Globals.cur_save_file)
 	just_started = false
 
 
@@ -87,6 +87,7 @@ func update_total():
 	hours_left.text = "Hours remaining: " + str(Globals.max_hours - new_total)
 	money_earned.text = "Cash earned: $%*.*f" % [7, 2, (new_total * Globals.wage)]
 	
+	title_label.text = Globals.term
 	#if auto_save_enabled:
 		#save()
 
@@ -126,71 +127,73 @@ func create_new_file(new_term : String, new_max_hours : String, new_wage : Strin
 		return
 	
 	save()
-	open_file(Globals.cur_save_file)
+	FileManager.open_file(Globals.cur_save_file)
 
 
-func open_file_dialog(is_saving : bool) -> void:
-	var window : AcceptDialog = AcceptDialog.new()
-	window.set_script(load("res://Windows/Scripts/open_file_window.gd"))
-	add_child(window)
-	cur_file_browser = window
-	window.initiate(Callable(self, "open_file"))
+#func open_file_dialog(is_saving : bool) -> void:
+	#var window : AcceptDialog = AcceptDialog.new()
+	#window.set_script(load("res://Windows/Scripts/open_file_window.gd"))
+	#add_child(window)
+	#cur_file_browser = window
+	#window.initiate(Callable(self, "open_file"))
 
 
-func open_file(filename : String) -> void:
-	######## Needs Work #############
-	#if not is_saved and not just_started and Globals.auto_save_enabled:
-		### If not auto-save, dialog asking to save
-		#save()
-	
-	Globals.cur_save_file = filename
-	var save_file = FileManager.get_save_file(filename, FileAccess.READ)
-	if not save_file:
-		file_is_open = false
-		GuiManager.hide_bottom_gui()
-		return
-	
-	file_is_open = true
-	# Clear previous data
-	GuiManager.clear_gui_main()
-	# time_entries = []
-	
-	# Create main display from save data
-	while(true):
-		# Get the data from save file
-		var line : String = save_file.get_line()
-		if not line:
-			break
-		var separated_data : PackedStringArray = line.split("|")
-		separated_data[0] = separated_data[0].strip_edges()
-		separated_data[1] = separated_data[1].strip_edges()
-		
-		# Assign variables from extracted data
-		if separated_data[0] == "term":
-			Globals.term = separated_data[1]
-			title_label.text = Globals.term
-			# continue
-		elif separated_data[0] == "max_hours":
-			Globals.max_hours = int(separated_data[1])
-			# continue
-		elif separated_data[0] == "wage":
-			Globals.wage = float(separated_data[1])
-			# continue
-		else:
-			TimeEntryManager.add_entry(separated_data[0], separated_data[1])
-	
-	save_file.close()
-	
-	update_total()
-	GuiManager.show_bottom_gui()
-	GuiManager.show_gui_main()
-	
-	if cur_file_browser:
-		cur_file_browser.queue_free()
+#func open_file(filename : String) -> void:
+	######### Needs Work #############
+	##if not is_saved and not just_started and Globals.auto_save_enabled:
+		#### If not auto-save, dialog asking to save
+		##save()
+	#
+	#Globals.cur_save_file = filename
+	#var save_file = FileManager.get_save_file(filename, FileAccess.READ)
+	#if not save_file:
+		#file_is_open = false
+		#GuiManager.hide_bottom_gui()
+		#return
+	#
+	#file_is_open = true
+	## Clear previous data
+	#GuiManager.clear_gui_main()
+	#TimeEntryManager.clear_all_entries()
+	## time_entries = []
+	#
+	## Create main display from save data
+	#while(true):
+		## Get the data from save file
+		#var line : String = save_file.get_line()
+		#if not line:
+			#break
+		#var separated_data : PackedStringArray = line.split("|")
+		#separated_data[0] = separated_data[0].strip_edges()
+		#separated_data[1] = separated_data[1].strip_edges()
+		#
+		## Assign variables from extracted data
+		#if separated_data[0] == "term":
+			#Globals.term = separated_data[1]
+			#title_label.text = Globals.term
+			## continue
+		#elif separated_data[0] == "max_hours":
+			#Globals.max_hours = int(separated_data[1])
+			## continue
+		#elif separated_data[0] == "wage":
+			#Globals.wage = float(separated_data[1])
+			## continue
+		#else:
+			#TimeEntryManager.add_entry(separated_data[0], separated_data[1])
+	#
+	#save_file.close()
+	#
+	#update_total()
+	#GuiManager.show_bottom_gui()
+	#GuiManager.show_gui_main()
+	#
+	#if cur_file_browser:
+		#cur_file_browser.queue_free()
 
 
 func save() -> void:
 	var save_file = FileManager.get_save_file(Globals.cur_save_file, FileAccess.WRITE)
+	print("Saving to %s" % Globals.cur_save_file)
 	if not save_file:
 		print ("Error retrieving %s" % Globals.cur_save_file)
 		return
@@ -216,8 +219,8 @@ func save() -> void:
 
 
 func _on_file_deleted() -> void:
-	gui_main.clear_contents()
-	bottom_gui.hide()
+	GuiManager.clear_gui_main()
+	GuiManager.hide_bottom_gui()
 
 
 func _custom_action_pressed(action : String) -> void:

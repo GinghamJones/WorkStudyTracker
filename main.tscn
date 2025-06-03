@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dcf8acq75ktr0"]
+[gd_scene load_steps=14 format=3 uid="uid://dcf8acq75ktr0"]
 
 [ext_resource type="Script" uid="uid://8rofpeqm3occ" path="res://main.gd" id="1_xlr82"]
 [ext_resource type="Script" uid="uid://cqruuswbikbrm" path="res://Components/file_menu.gd" id="2_1bvp3"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://de5sjtw2i0xfm" path="res://Components/gui_main.gd" id="4_lquwl"]
 [ext_resource type="PackedScene" uid="uid://rovw41hvgv1a" path="res://Windows/Scenes/rename_file_window.tscn" id="5_4c57u"]
 [ext_resource type="Script" uid="uid://7bxb27fgrb7x" path="res://Buttons/delete_button.gd" id="5_7mycd"]
+[ext_resource type="PackedScene" uid="uid://cm8ocrcrjjuy4" path="res://Windows/Scenes/open_file_window.tscn" id="6_dg77c"]
 [ext_resource type="Script" uid="uid://hy37okn2f1ek" path="res://Components/margin_bottom.gd" id="6_kek77"]
 [ext_resource type="Script" uid="uid://e1xc4l1tv6bu" path="res://Components/hours_label.gd" id="7_5vw27"]
 [ext_resource type="Script" uid="uid://ccicvdgb13pcy" path="res://Components/date_label.gd" id="8_kek77"]
@@ -79,6 +80,7 @@ item_5/id = 3
 script = ExtResource("2_1bvp3")
 delete_window_scene = ExtResource("4_efxa6")
 rename_window_scene = ExtResource("5_4c57u")
+open_window_scene = ExtResource("6_dg77c")
 
 [node name="TitleLabel" type="Label" parent="ContentsContainer"]
 custom_minimum_size = Vector2(0, 30)

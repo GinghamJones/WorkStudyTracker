@@ -5,11 +5,7 @@
 [ext_resource type="FontFile" uid="uid://kjrulbemh3wx" path="res://Theming/Inter-VariableFont_opsz,wght.ttf" id="3_03tpn"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_470mv"]
-bg_color = Color(0.560784, 0.603922, 0.67451, 1)
-border_width_left = 5
-border_width_right = 5
-border_width_bottom = 5
-border_color = Color(0.560784, 0.603922, 0.67451, 1)
+bg_color = Color(0.108485, 0.248897, 0.222993, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qpiha"]
 bg_color = Color(0.112472, 0.109743, 0.151018, 1)

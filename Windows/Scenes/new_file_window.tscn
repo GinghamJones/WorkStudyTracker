@@ -1,0 +1,37 @@
+[gd_scene load_steps=3 format=3 uid="uid://d27u0lkayrhp4"]
+
+[ext_resource type="Theme" uid="uid://cp1l5q3r0n17m" path="res://Theming/main_theme.tres" id="1_n08wl"]
+[ext_resource type="Script" uid="uid://b2s443mw0nm8d" path="res://Windows/Scenes/new_file_window.gd" id="2_yvb37"]
+
+[node name="NewFileWindow" type="AcceptDialog"]
+title = "Create New File"
+initial_position = 1
+size = Vector2i(300, 300)
+visible = true
+always_on_top = true
+theme = ExtResource("1_n08wl")
+script = ExtResource("2_yvb37")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -150.0
+offset_right = 300.0
+offset_bottom = 119.0
+grow_vertical = 2
+theme_override_constants/separation = 21
+
+[node name="TermLine" type="LineEdit" parent="VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Enter term"
+
+[node name="MaxHoursLine" type="LineEdit" parent="VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Enter Max Allowed Hours"
+
+[node name="WageLine" type="LineEdit" parent="VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Enter Wage"
+
+[connection signal="confirmed" from="." to="." method="_on_confirmed"]
