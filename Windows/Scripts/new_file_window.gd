@@ -1,55 +1,38 @@
+class_name NewFileWindow
+extends AcceptDialog
 
-extends Node
+@onready var term_line: LineEdit = $VBoxContainer/TermLine
+@onready var max_hours_line: LineEdit = $VBoxContainer/MaxHoursLine
+@onready var wage_line: LineEdit = $VBoxContainer/WageLine
 
-var window : ConfirmationDialog
-var term : String
-var max_hours : String
-var wage : String
-var main_scene 
-var filename : String
 
-signal new_file_created
+signal request_new_file
+
 
 func _ready() -> void:
-	main_scene = get_tree().get_first_node_in_group("Main")
-	new_file_created.connect(Callable(main_scene, "create_new_file"))
+	request_new_file.connect(get_tree().get_first_node_in_group("Main").create_new_file)
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_accept"):
+		confirmed.emit()
+
+
+func _on_confirmed() -> void:
+	var is_data_ok : bool = check_data()
+	if not is_data_ok:
+		return
 	
-	window = ConfirmationDialog.new()
-	window.title = "Create New File"
-	window.initial_position = Window.WINDOW_INITIAL_POSITION_CENTER_MAIN_WINDOW_SCREEN
-	window.size = Vector2(500, 250)
-	add_child(window)
-	window.confirmed.connect(send_new_file)
-	window.show()
-	
-	var vbox : VBoxContainer = VBoxContainer.new()
-	window.add_child(vbox)
-	
-	var term_edit : LineEdit = LineEdit.new()
-	vbox.add_child(term_edit)
-	term_edit.placeholder_text = "Enter term"
-	term_edit.text_changed.connect(set_term)
-	var max_hours_edit : LineEdit = LineEdit.new()
-	vbox.add_child(max_hours_edit)
-	max_hours_edit.placeholder_text = "Enter maximum allowed hours"
-	max_hours_edit.text_changed.connect(set_max_hours)
-	var wage_edit : LineEdit = LineEdit.new()
-	vbox.add_child(wage_edit)
-	wage_edit.placeholder_text = "Enter your wage"
-	wage_edit.text_changed.connect(set_wage)
-
-
-func set_term(value : String) -> void:
-	term = value
-
-func set_wage(value : String) -> void:
-	wage = value
-
-func set_max_hours(value : String) -> void:
-	max_hours = value
-
-
-func send_new_file() -> void:
-	new_file_created.emit(term, max_hours, wage)
-	print("Create file emitted")
+	request_new_file.emit(term_line.text, max_hours_line.text, wage_line.text)
 	queue_free()
+
+
+func check_data() -> bool:
+	if term_line.text == "":
+		return false
+	if max_hours_line.text == "":
+		return false
+	if wage_line.text == "":
+		return false
+	
+	return true

@@ -1,9 +1,9 @@
+class_name MainScene
 extends Control
 
 @export var hours_logged_cont: VBoxContainer
 @export var gui_main: GUIMain
 @export var addbutton: Button
-#@export var delete_script : Script 
 @export var title_label : Label
 
 @export var total: Label
@@ -15,7 +15,6 @@ var wage : float
 var term : String
 
 var canceled : bool = false
-#var cur_save_file : String
 var cur_file_browser = null
 var is_quitting : bool = false
 var time_entries : Array[TimeEntry] = []
@@ -49,38 +48,13 @@ func _ready() -> void:
 	just_started = false
 
 
-# func _on_system_ready() -> void:
-# 	pass	
-
 func cancel():
 	print("canceled")
 	canceled = true
 	return
 
 
-# func remove_time(line_to_remove, delete_button : DeleteButton):
-# 	# Remove entry in time_entries array
-# 	if time_entries.has(delete_button.time_entry):
-# 		for index in time_entries.size():
-# 			if time_entries[index] == delete_button.time_entry:
-# 				time_entries.remove_at(index)
-# 				break
-# 	else:
-# 		print("Teh fuck happened to the time_entry???")
-	
-# 	# Takes corresponding vbox container w/ lineedits and delete button and removes them
-# 	for c in line_to_remove.get_children():
-# 		c.text = "0"
-# 		c.queue_free()
-# 	line_to_remove.queue_free()
-# 	delete_button.queue_free()
-# 	update_total()
-
-
 func update_total():
-	# var new_total : float = 0
-	# for entry in time_entries:
-	# 	new_total += entry.time
 	var new_total = TimeEntryManager.get_total_hours()
 	
 	total.text = "Total: " + str(new_total)
@@ -90,17 +64,6 @@ func update_total():
 	title_label.text = Globals.term
 	#if auto_save_enabled:
 		#save()
-
-
-# func add_data(date : String, time : String) -> void:
-# 	is_saved = false
-# 	# Create new time entry
-# 	var new_time_entry : TimeEntry = TimeEntry.new()
-# 	new_time_entry.set_data(date, time)
-# 	time_entries.append(new_time_entry)
-	
-# 	gui_main.add_data_to_gui(new_time_entry)
-# 	update_total()
 
 
 func open_new_file_dialog() -> void:
@@ -126,69 +89,7 @@ func create_new_file(new_term : String, new_max_hours : String, new_wage : Strin
 		print("Couldn't create file")
 		return
 	
-	save()
 	FileManager.open_file(Globals.cur_save_file)
-
-
-#func open_file_dialog(is_saving : bool) -> void:
-	#var window : AcceptDialog = AcceptDialog.new()
-	#window.set_script(load("res://Windows/Scripts/open_file_window.gd"))
-	#add_child(window)
-	#cur_file_browser = window
-	#window.initiate(Callable(self, "open_file"))
-
-
-#func open_file(filename : String) -> void:
-	######### Needs Work #############
-	##if not is_saved and not just_started and Globals.auto_save_enabled:
-		#### If not auto-save, dialog asking to save
-		##save()
-	#
-	#Globals.cur_save_file = filename
-	#var save_file = FileManager.get_save_file(filename, FileAccess.READ)
-	#if not save_file:
-		#file_is_open = false
-		#GuiManager.hide_bottom_gui()
-		#return
-	#
-	#file_is_open = true
-	## Clear previous data
-	#GuiManager.clear_gui_main()
-	#TimeEntryManager.clear_all_entries()
-	## time_entries = []
-	#
-	## Create main display from save data
-	#while(true):
-		## Get the data from save file
-		#var line : String = save_file.get_line()
-		#if not line:
-			#break
-		#var separated_data : PackedStringArray = line.split("|")
-		#separated_data[0] = separated_data[0].strip_edges()
-		#separated_data[1] = separated_data[1].strip_edges()
-		#
-		## Assign variables from extracted data
-		#if separated_data[0] == "term":
-			#Globals.term = separated_data[1]
-			#title_label.text = Globals.term
-			## continue
-		#elif separated_data[0] == "max_hours":
-			#Globals.max_hours = int(separated_data[1])
-			## continue
-		#elif separated_data[0] == "wage":
-			#Globals.wage = float(separated_data[1])
-			## continue
-		#else:
-			#TimeEntryManager.add_entry(separated_data[0], separated_data[1])
-	#
-	#save_file.close()
-	#
-	#update_total()
-	#GuiManager.show_bottom_gui()
-	#GuiManager.show_gui_main()
-	#
-	#if cur_file_browser:
-		#cur_file_browser.queue_free()
 
 
 func save() -> void:

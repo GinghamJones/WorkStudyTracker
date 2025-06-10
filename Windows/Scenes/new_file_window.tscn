@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://d27u0lkayrhp4"]
 
 [ext_resource type="Theme" uid="uid://cp1l5q3r0n17m" path="res://Theming/main_theme.tres" id="1_n08wl"]
-[ext_resource type="Script" uid="uid://b2s443mw0nm8d" path="res://Windows/Scenes/new_file_window.gd" id="2_yvb37"]
+[ext_resource type="Script" uid="uid://b2s443mw0nm8d" path="res://Windows/Scripts/new_file_window.gd" id="2_yvb37"]
 
 [node name="NewFileWindow" type="AcceptDialog"]
 title = "Create New File"
@@ -16,9 +16,8 @@ script = ExtResource("2_yvb37")
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_top = -150.0
 offset_right = 300.0
-offset_bottom = 119.0
+offset_bottom = 269.0
 grow_vertical = 2
 theme_override_constants/separation = 21
 
