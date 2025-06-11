@@ -16,8 +16,8 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func change_name() -> void:
-	var new_name : String= $VBoxContainer/LineEdit.text
+	var new_name : String= new_name_edit.text
 	if new_name.is_empty():
 		return
-	FileManager.rename_file($VBoxContainer/LineEdit.text)
+	FileManager.rename_file(new_name_edit.text)
 	queue_free()

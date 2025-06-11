@@ -3,7 +3,8 @@ extends Node
 var entries : Array[TimeEntry]
 
 signal entry_added
-signal deleted_data
+#signal deleted_data
+signal request_update_total
 
 
 func _ready() -> void:
@@ -11,7 +12,8 @@ func _ready() -> void:
 
 func _on_system_ready() -> void:
 	entry_added.connect(Globals.main_scene.gui_main.add_data_to_gui)
-	deleted_data.connect(Globals.main_scene.update_total)
+	request_update_total.connect(Globals.main_scene.update_total)
+	#deleted_data.connect(Globals.main_scene.update_total)
 	
 
 func add_entry(date, hours) -> void:
@@ -19,7 +21,9 @@ func add_entry(date, hours) -> void:
 	new_time_entry.set_data(date, hours)
 	entries.append(new_time_entry)
 	entry_added.emit(new_time_entry)
-	Globals.main_scene.update_total()
+	request_update_total.emit()
+	
+	#Globals.main_scene.update_total()
 
 
 func remove_entry(delete_button : DeleteButton) -> void:
@@ -28,8 +32,8 @@ func remove_entry(delete_button : DeleteButton) -> void:
 			entries.erase(e)
 	delete_button.corresponding_line.queue_free()
 	delete_button.queue_free()
-	deleted_data.emit()
-
+	#deleted_data.emit()
+	request_update_total.emit()
 
 func clear_all_entries() -> void:
 	entries.clear()

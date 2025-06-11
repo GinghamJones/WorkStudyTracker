@@ -3,12 +3,15 @@ extends AcceptDialog
 
 
 func _ready() -> void:
+	# Handle no available files
 	if not DirAccess.dir_exists_absolute(FileManager.save_folder_path):
 		DirAccess.make_dir_absolute(FileManager.save_folder_path)
 		var label : Label = Label.new()
 		add_child(label)
 		label.text = "No files to open :("
 		return
+	
+	# Open save dir and create buttons for each file
 	var dir = DirAccess.open(FileManager.save_folder_path)
 	if dir:
 		dir.list_dir_begin()

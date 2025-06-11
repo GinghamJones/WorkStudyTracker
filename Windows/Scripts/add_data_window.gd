@@ -5,10 +5,6 @@ extends ConfirmationDialog
 @onready var hours_line: LineEdit = $VBoxContainer/HoursLine
 
 
-func _ready() -> void:
-	confirmed.connect(Callable(TimeEntryManager.add_entry))
-
-
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey:
 		if event.keycode == KEY_ENTER:
@@ -26,7 +22,7 @@ func check_data() -> bool:
 	
 	var hours : String = hours_line.text
 	var r2 : RegEx = RegEx.new()
-	r2.compile("^[1-12]$")
+	r2.compile("^[1-9]$")
 	var check2 := r2.search(hours)
 	if check2 == null:
 		return false
@@ -42,5 +38,5 @@ func _on_confirmed() -> void:
 	queue_free()
 
 
-func _on_text_submitted(new_text: String) -> void:
+func _on_text_submitted(_new_text: String) -> void:
 	confirmed.emit()

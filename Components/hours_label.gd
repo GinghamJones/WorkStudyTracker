@@ -4,7 +4,8 @@ extends LineEdit
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	placeholder_text = "Enter a number"
-	text_changed.connect(Callable(self, "_on_text_changed"))
+	text_changed.connect(Callable(_on_text_changed))
+	text_submitted.connect(_on_text_changed)
 
 
 func _on_text_changed(new_text : String) -> void:

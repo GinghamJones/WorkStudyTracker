@@ -11,14 +11,17 @@
 			"uuid": "7317eac3-1b04-4de2-a294-7e99dd23ade1",
 			"title": "Todo",
 			"tasks": [
-				"5992988e-2571-4e51-9d97-6b9cc69378e4",
-				"79751aaa-d9ec-411c-a10b-3a7f938263a6"
+				"79751aaa-d9ec-411c-a10b-3a7f938263a6",
+				"d43eaadd-a80f-4449-979f-d8201ca3ab34",
+				"d78dcc47-3b84-4c1c-a0bd-cb6363070cbb"
 			]
 		},
 		{
 			"uuid": "703758e3-d069-4fac-958e-b98fbf3c8b76",
 			"title": "Doing",
-			"tasks": []
+			"tasks": [
+				"5992988e-2571-4e51-9d97-6b9cc69378e4"
+			]
 		},
 		{
 			"uuid": "07300717-23c9-4027-b673-dfd52c9a12f8",
@@ -51,6 +54,20 @@
 		{
 			"uuid": "ab96370a-d26a-48e7-814d-cc4e91ae416b",
 			"title": "Bottom gui disappears if deleting cur file",
+			"description": "",
+			"category": "ca7372b8-4b1f-42ae-9e9b-0d256e3ffd0d",
+			"steps": []
+		},
+		{
+			"uuid": "d43eaadd-a80f-4449-979f-d8201ca3ab34",
+			"title": "Ability to sort entries by date",
+			"description": "",
+			"category": "ca7372b8-4b1f-42ae-9e9b-0d256e3ffd0d",
+			"steps": []
+		},
+		{
+			"uuid": "d78dcc47-3b84-4c1c-a0bd-cb6363070cbb",
+			"title": "Allow editing existing entries with data checks",
 			"description": "",
 			"category": "ca7372b8-4b1f-42ae-9e9b-0d256e3ffd0d",
 			"steps": []
