@@ -33,7 +33,7 @@ func check_data(new_date : String, new_time : String) -> bool:
 		return false
 	
 	var r2 : RegEx = RegEx.new()
-	r2.compile("^[1-12]$")
+	r2.compile("^[0-9].[0-9]$")
 	var check2 := r2.search(new_time)
 	if check2 == null:
 		return false
