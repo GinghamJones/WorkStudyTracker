@@ -16,12 +16,17 @@ func _on_system_ready() -> void:
 	#deleted_data.connect(Globals.main_scene.update_total)
 	
 
-func add_entry(date, hours) -> void:
+func add_entry(date, hours) -> bool:
 	var new_time_entry : TimeEntry = TimeEntry.new()
+	if not new_time_entry.check_data(date, hours):
+		return false
+	
 	new_time_entry.set_data(date, hours)
 	entries.append(new_time_entry)
 	entry_added.emit(new_time_entry)
 	request_update_total.emit()
+	return true
+	
 	
 	#Globals.main_scene.update_total()
 

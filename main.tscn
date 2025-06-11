@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dcf8acq75ktr0"]
+[gd_scene load_steps=9 format=3 uid="uid://dcf8acq75ktr0"]
 
 [ext_resource type="Script" uid="uid://8rofpeqm3occ" path="res://main.gd" id="1_xlr82"]
 [ext_resource type="Script" uid="uid://cqruuswbikbrm" path="res://Components/file_menu.gd" id="2_1bvp3"]
@@ -7,8 +7,6 @@
 [ext_resource type="Script" uid="uid://de5sjtw2i0xfm" path="res://Components/gui_main.gd" id="4_lquwl"]
 [ext_resource type="Script" uid="uid://7bxb27fgrb7x" path="res://Buttons/delete_button.gd" id="5_7mycd"]
 [ext_resource type="Script" uid="uid://hy37okn2f1ek" path="res://Components/margin_bottom.gd" id="6_kek77"]
-[ext_resource type="Script" uid="uid://e1xc4l1tv6bu" path="res://Components/hours_label.gd" id="7_5vw27"]
-[ext_resource type="Script" uid="uid://ccicvdgb13pcy" path="res://Components/date_label.gd" id="8_kek77"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_qq3wf"]
 font_size = 24
@@ -154,15 +152,12 @@ theme = ExtResource("2_5wffu")
 theme_override_constants/separation = 100
 alignment = 1
 
-[node name="addbutton" type="Button" parent="ContentsContainer/MarginBottom/VBox/ButtonHBox" node_paths=PackedStringArray("main_scene")]
+[node name="addbutton" type="Button" parent="ContentsContainer/MarginBottom/VBox/ButtonHBox"]
 layout_mode = 2
 size_flags_horizontal = 0
 theme = ExtResource("2_5wffu")
 text = "Add Hours"
 script = ExtResource("2_2ns8r")
-main_scene = NodePath("../../../../..")
-hours_label_script = ExtResource("7_5vw27")
-date_label_script = ExtResource("8_kek77")
 
 [node name="QuitButton" type="Button" parent="ContentsContainer/MarginBottom/VBox/ButtonHBox"]
 layout_mode = 2

@@ -1,11 +1,11 @@
 extends Button
 
-@export var main_scene : Control
-@export var hours_label_script : Script
-@export var date_label_script : Script
-var window : ConfirmationDialog
-var date_field : LineEdit
-var hours_field : LineEdit
+#@export var main_scene : Control
+#@export var hours_label_script : Script
+#@export var date_label_script : Script
+#var window : ConfirmationDialog
+#var date_field : LineEdit
+#var hours_field : LineEdit
 
 
 func _on_addbutton_pressed() -> void:

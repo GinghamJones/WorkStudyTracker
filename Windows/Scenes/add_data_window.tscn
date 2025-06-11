@@ -4,7 +4,7 @@
 
 [node name="AddDataWindow" type="ConfirmationDialog"]
 initial_position = 2
-size = Vector2i(300, 300)
+size = Vector2i(300, 200)
 visible = true
 ok_button_text = "Add"
 script = ExtResource("1_q6r62")
@@ -13,7 +13,7 @@ script = ExtResource("1_q6r62")
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 292.0
-offset_bottom = 251.0
+offset_bottom = 151.0
 
 [node name="DateLine" type="LineEdit" parent="VBoxContainer"]
 layout_mode = 2
@@ -23,6 +23,18 @@ placeholder_text = "mm/dd"
 layout_mode = 2
 placeholder_text = "Hours worked"
 
+[node name="ErrorLabel" type="Label" parent="VBoxContainer"]
+custom_minimum_size = Vector2(250, 50)
+layout_mode = 2
+size_flags_vertical = 10
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="ErrorTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
 [connection signal="confirmed" from="." to="." method="_on_confirmed"]
 [connection signal="text_submitted" from="VBoxContainer/DateLine" to="." method="_on_text_submitted"]
 [connection signal="text_submitted" from="VBoxContainer/HoursLine" to="." method="_on_text_submitted"]
+[connection signal="timeout" from="ErrorTimer" to="." method="_on_error_timer_timeout"]
