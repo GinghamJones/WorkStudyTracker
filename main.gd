@@ -66,9 +66,9 @@ func update_total():
 		#save()
 
 
-func open_new_file_dialog() -> void:
-	var new_file_dialog : NewFileWindow = NewFileWindow.new()
-	add_child(new_file_dialog)
+#func open_new_file_dialog() -> void:
+	#var new_file_dialog : NewFileWindow = NewFileWindow.new()
+	#add_child(new_file_dialog)
 
 
 func create_new_file(new_term : String, new_max_hours : String, new_wage : String) -> void:

@@ -8,6 +8,7 @@ title = "Create New File"
 initial_position = 1
 size = Vector2i(300, 300)
 visible = true
+exclusive = false
 always_on_top = true
 theme = ExtResource("1_n08wl")
 script = ExtResource("2_yvb37")
@@ -23,10 +24,12 @@ theme_override_constants/separation = 21
 
 [node name="TermLine" type="LineEdit" parent="VBoxContainer"]
 layout_mode = 2
+theme = ExtResource("1_n08wl")
 placeholder_text = "Enter term"
 
 [node name="MaxHoursLine" type="LineEdit" parent="VBoxContainer"]
 layout_mode = 2
+theme = ExtResource("1_n08wl")
 placeholder_text = "Enter Max Allowed Hours"
 
 [node name="WageLine" type="LineEdit" parent="VBoxContainer"]
@@ -34,3 +37,6 @@ layout_mode = 2
 placeholder_text = "Enter Wage"
 
 [connection signal="confirmed" from="." to="." method="_on_confirmed"]
+[connection signal="text_submitted" from="VBoxContainer/TermLine" to="." method="_on_text_submitted"]
+[connection signal="text_submitted" from="VBoxContainer/MaxHoursLine" to="." method="_on_text_submitted"]
+[connection signal="text_submitted" from="VBoxContainer/WageLine" to="." method="_on_text_submitted"]
