@@ -25,18 +25,18 @@ theme_override_constants/separation = 21
 [node name="TermLine" type="LineEdit" parent="VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("1_n08wl")
-placeholder_text = "Enter term"
+placeholder_text = "Term"
 
-[node name="MaxHoursLine" type="LineEdit" parent="VBoxContainer"]
+[node name="AllottedHoursLine" type="LineEdit" parent="VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("1_n08wl")
-placeholder_text = "Enter Max Allowed Hours"
+placeholder_text = "Allotted money"
 
 [node name="WageLine" type="LineEdit" parent="VBoxContainer"]
 layout_mode = 2
-placeholder_text = "Enter Wage"
+placeholder_text = "Wage"
 
 [connection signal="confirmed" from="." to="." method="_on_confirmed"]
 [connection signal="text_submitted" from="VBoxContainer/TermLine" to="." method="_on_text_submitted"]
-[connection signal="text_submitted" from="VBoxContainer/MaxHoursLine" to="." method="_on_text_submitted"]
+[connection signal="text_submitted" from="VBoxContainer/AllottedHoursLine" to="." method="_on_text_submitted"]
 [connection signal="text_submitted" from="VBoxContainer/WageLine" to="." method="_on_text_submitted"]

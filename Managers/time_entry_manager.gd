@@ -11,7 +11,8 @@ func _ready() -> void:
 	SignalManager.register_listener(self)
 
 func _on_system_ready() -> void:
-	entry_added.connect(Globals.main_scene.gui_main.add_data_to_gui)
+	#entry_added.connect(Globals.main_scene.gui_main.add_data_to_gui)
+	entry_added.connect(GuiManager.pass_data_to_gui)
 	request_update_total.connect(Globals.main_scene.update_total)
 	#deleted_data.connect(Globals.main_scene.update_total)
 	

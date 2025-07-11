@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dh6xqq3pfy6hm"]
+[gd_scene load_steps=8 format=3 uid="uid://dh6xqq3pfy6hm"]
 
 [ext_resource type="Script" uid="uid://brilgqhn7gfd0" path="res://Managers/window_manager.gd" id="1_v7dc4"]
 [ext_resource type="PackedScene" uid="uid://duq66nbpjqmxr" path="res://Windows/Scenes/delete_file_window.tscn" id="2_pjlsd"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://d27u0lkayrhp4" path="res://Windows/Scenes/new_file_window.tscn" id="4_vyrig"]
 [ext_resource type="PackedScene" uid="uid://cm8ocrcrjjuy4" path="res://Windows/Scenes/open_file_window.tscn" id="5_1qye2"]
 [ext_resource type="PackedScene" uid="uid://cqquobubam8j7" path="res://Windows/Scenes/add_data_window.tscn" id="6_vyrig"]
+[ext_resource type="PackedScene" uid="uid://b6bcmylto1w3b" path="res://Windows/Scenes/quit_window.tscn" id="7_aghb0"]
 
 [node name="WindowManager" type="Node"]
 script = ExtResource("1_v7dc4")
@@ -14,3 +15,4 @@ rename_file_window_scene = ExtResource("3_1qye2")
 new_file_window_scene = ExtResource("4_vyrig")
 open_file_window_scene = ExtResource("5_1qye2")
 add_data_window_scene = ExtResource("6_vyrig")
+quit_window_scene = ExtResource("7_aghb0")

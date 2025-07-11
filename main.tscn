@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dcf8acq75ktr0"]
+[gd_scene load_steps=10 format=3 uid="uid://dcf8acq75ktr0"]
 
 [ext_resource type="Script" uid="uid://8rofpeqm3occ" path="res://main.gd" id="1_xlr82"]
 [ext_resource type="Script" uid="uid://cqruuswbikbrm" path="res://Components/file_menu.gd" id="2_1bvp3"]
@@ -11,7 +11,15 @@
 [sub_resource type="LabelSettings" id="LabelSettings_qq3wf"]
 font_size = 24
 
-[node name="Main" type="Control" node_paths=PackedStringArray("hours_logged_cont", "gui_main", "addbutton", "title_label", "total", "hours_left", "money_earned", "bottom_gui") groups=["Main"]]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_272bh"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_blend = true
+
+[node name="Main" type="Control" node_paths=PackedStringArray("hours_logged_cont", "addbutton", "title_label", "total", "hours_left", "money_earned") groups=["Main"]]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -22,13 +30,11 @@ grow_vertical = 2
 theme = ExtResource("2_5wffu")
 script = ExtResource("1_xlr82")
 hours_logged_cont = NodePath("ContentsContainer/GUIMain/MarginContainer/DataContainer/HoursLoggedCont")
-gui_main = NodePath("ContentsContainer/GUIMain")
-addbutton = NodePath("ContentsContainer/MarginBottom/VBox/ButtonHBox/addbutton")
-title_label = NodePath("ContentsContainer/TitleLabel")
-total = NodePath("ContentsContainer/MarginBottom/VBox/InfoVBox/Total")
-hours_left = NodePath("ContentsContainer/MarginBottom/VBox/InfoVBox/HoursLeft")
-money_earned = NodePath("ContentsContainer/MarginBottom/VBox/InfoVBox/MoneyEarned")
-bottom_gui = NodePath("ContentsContainer/MarginBottom")
+addbutton = NodePath("ContentsContainer/MarginBottom/BottomContainer/ButtonHBox/addbutton")
+title_label = NodePath("ContentsContainer/FileMenuContainer/TitleLabel")
+total = NodePath("ContentsContainer/MarginBottom/BottomContainer/InfoVBox/TotalContainer/Total")
+hours_left = NodePath("ContentsContainer/MarginBottom/BottomContainer/InfoVBox/HoursLeftContainer/HoursLeft")
+money_earned = NodePath("ContentsContainer/MarginBottom/BottomContainer/InfoVBox/CashEarnedContainer/MoneyEarned")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 z_index = -1
@@ -47,6 +53,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 15
 
 [node name="FileMenuContainer" type="MarginContainer" parent="ContentsContainer"]
 layout_mode = 2
@@ -74,7 +81,7 @@ item_5/text = "Quit"
 item_5/id = 3
 script = ExtResource("2_1bvp3")
 
-[node name="TitleLabel" type="Label" parent="ContentsContainer"]
+[node name="TitleLabel" type="Label" parent="ContentsContainer/FileMenuContainer"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 theme = ExtResource("2_5wffu")
@@ -83,10 +90,11 @@ label_settings = SubResource("LabelSettings_qq3wf")
 horizontal_alignment = 1
 
 [node name="GUIMain" type="ScrollContainer" parent="ContentsContainer" node_paths=PackedStringArray("hours_logged_cont", "aux_cont") groups=["GUIMain"]]
-custom_minimum_size = Vector2(0, 225)
+custom_minimum_size = Vector2(500, 225)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_272bh")
 horizontal_scroll_mode = 0
 script = ExtResource("4_lquwl")
 hours_logged_cont = NodePath("MarginContainer/DataContainer/HoursLoggedCont")
@@ -111,59 +119,82 @@ layout_mode = 2
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 
-[node name="MarginBottom" type="MarginContainer" parent="ContentsContainer" groups=["GUIBottom"]]
+[node name="MarginBottom" type="MarginContainer" parent="ContentsContainer" node_paths=PackedStringArray("info_vbox", "add_button") groups=["GUIBottom"]]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_bottom = 10
 script = ExtResource("6_kek77")
+info_vbox = NodePath("BottomContainer/InfoVBox")
+add_button = NodePath("BottomContainer/ButtonHBox/addbutton")
 
-[node name="VBox" type="VBoxContainer" parent="ContentsContainer/MarginBottom"]
+[node name="BottomContainer" type="VBoxContainer" parent="ContentsContainer/MarginBottom"]
 layout_mode = 2
 
-[node name="InfoVBox" type="VBoxContainer" parent="ContentsContainer/MarginBottom/VBox"]
+[node name="InfoVBox" type="VBoxContainer" parent="ContentsContainer/MarginBottom/BottomContainer"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Total" type="Label" parent="ContentsContainer/MarginBottom/VBox/InfoVBox"]
+[node name="TotalContainer" type="HBoxContainer" parent="ContentsContainer/MarginBottom/BottomContainer/InfoVBox"]
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 24
-text = "Total: 0"
 
-[node name="HoursLeft" type="Label" parent="ContentsContainer/MarginBottom/VBox/InfoVBox"]
+[node name="TotalTitle" type="Label" parent="ContentsContainer/MarginBottom/BottomContainer/InfoVBox/TotalContainer"]
+layout_mode = 2
+text = "Hours Worked: "
+
+[node name="Total" type="Label" parent="ContentsContainer/MarginBottom/BottomContainer/InfoVBox/TotalContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "10000"
+
+[node name="HoursLeftContainer" type="HBoxContainer" parent="ContentsContainer/MarginBottom/BottomContainer/InfoVBox"]
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 24
-text = "Hours Left: 140"
 
-[node name="MoneyEarned" type="Label" parent="ContentsContainer/MarginBottom/VBox/InfoVBox"]
+[node name="HoursLeftTitle" type="Label" parent="ContentsContainer/MarginBottom/BottomContainer/InfoVBox/HoursLeftContainer"]
+layout_mode = 2
+text = "Hours Left:        "
+
+[node name="HoursLeft" type="Label" parent="ContentsContainer/MarginBottom/BottomContainer/InfoVBox/HoursLeftContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "140000"
+
+[node name="CashEarnedContainer" type="HBoxContainer" parent="ContentsContainer/MarginBottom/BottomContainer/InfoVBox"]
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 24
-text = "Money Earned: 0"
 
-[node name="ButtonHBox" type="HBoxContainer" parent="ContentsContainer/MarginBottom/VBox"]
+[node name="MoneyEarnedLabel" type="Label" parent="ContentsContainer/MarginBottom/BottomContainer/InfoVBox/CashEarnedContainer"]
+layout_mode = 2
+text = "Cash Earned:     "
+
+[node name="MoneyEarned" type="Label" parent="ContentsContainer/MarginBottom/BottomContainer/InfoVBox/CashEarnedContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "100000"
+
+[node name="ButtonHBox" type="HBoxContainer" parent="ContentsContainer/MarginBottom/BottomContainer"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 theme = ExtResource("2_5wffu")
 theme_override_constants/separation = 100
 alignment = 1
 
-[node name="addbutton" type="Button" parent="ContentsContainer/MarginBottom/VBox/ButtonHBox"]
+[node name="addbutton" type="Button" parent="ContentsContainer/MarginBottom/BottomContainer/ButtonHBox"]
 layout_mode = 2
 size_flags_horizontal = 0
 theme = ExtResource("2_5wffu")
 text = "Add Hours"
 script = ExtResource("2_2ns8r")
 
-[node name="QuitButton" type="Button" parent="ContentsContainer/MarginBottom/VBox/ButtonHBox"]
+[node name="QuitButton" type="Button" parent="ContentsContainer/MarginBottom/BottomContainer/ButtonHBox"]
 layout_mode = 2
 theme = ExtResource("2_5wffu")
 text = "Quit"
 
 [connection signal="id_pressed" from="ContentsContainer/FileMenuContainer/MenuBar/File" to="ContentsContainer/FileMenuContainer/MenuBar/File" method="_on_id_pressed"]
-[connection signal="pressed" from="ContentsContainer/MarginBottom/VBox/ButtonHBox/addbutton" to="ContentsContainer/MarginBottom/VBox/ButtonHBox/addbutton" method="_on_addbutton_pressed"]
-[connection signal="pressed" from="ContentsContainer/MarginBottom/VBox/ButtonHBox/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="ContentsContainer/MarginBottom/BottomContainer/ButtonHBox/addbutton" to="ContentsContainer/MarginBottom/BottomContainer/ButtonHBox/addbutton" method="_on_addbutton_pressed"]
+[connection signal="pressed" from="ContentsContainer/MarginBottom/BottomContainer/ButtonHBox/QuitButton" to="." method="_on_quit_button_pressed"]

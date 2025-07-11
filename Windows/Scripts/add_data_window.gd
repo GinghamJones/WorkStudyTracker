@@ -32,9 +32,6 @@ func check_data() -> bool:
 	return true
 
 func _on_confirmed() -> void:
-	#if not check_data():
-		#show()
-		#return
 	if not TimeEntryManager.add_entry(date_line.text, hours_line.text):
 		show()
 		error_label.text = "Invalid format: please use mm/dd and number for hours"

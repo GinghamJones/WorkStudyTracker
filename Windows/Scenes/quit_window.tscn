@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://b6bcmylto1w3b"]
+
+[ext_resource type="Script" uid="uid://be58b4p0mkbwt" path="res://Windows/Scripts/quit_window.gd" id="1_blpej"]
+
+[node name="QuitWindow" type="ConfirmationDialog"]
+initial_position = 1
+size = Vector2i(295, 100)
+visible = true
+always_on_top = true
+ok_button_text = "Save"
+dialog_text = "File not saved. Do you want to save?"
+script = ExtResource("1_blpej")
+
+[connection signal="canceled" from="." to="." method="_on_canceled"]
+[connection signal="confirmed" from="." to="." method="_on_confirmed"]
+[connection signal="custom_action" from="." to="." method="_on_custom_action"]

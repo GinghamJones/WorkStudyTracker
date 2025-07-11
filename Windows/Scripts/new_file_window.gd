@@ -2,7 +2,7 @@ class_name NewFileWindow
 extends AcceptDialog
 
 @onready var term_line: LineEdit = $VBoxContainer/TermLine
-@onready var max_hours_line: LineEdit = $VBoxContainer/MaxHoursLine
+@onready var allotted_hours: LineEdit = $VBoxContainer/AllottedHoursLine
 @onready var wage_line: LineEdit = $VBoxContainer/WageLine
 
 
@@ -24,16 +24,16 @@ func _on_confirmed() -> void:
 	if not is_data_ok:
 		return
 	
-	request_new_file.emit(term_line.text, max_hours_line.text, wage_line.text)
+	request_new_file.emit(term_line.text, allotted_hours.text, wage_line.text)
 	queue_free()
 
 
 func check_data() -> bool:
 	if term_line.text == "":
 		return false
-	if max_hours_line.text == "":
+	if allotted_hours.text == "" or not allotted_hours.text.is_valid_float():
 		return false
-	if wage_line.text == "":
+	if wage_line.text == "" or not wage_line.text.is_valid_float():
 		return false
 	
 	return true

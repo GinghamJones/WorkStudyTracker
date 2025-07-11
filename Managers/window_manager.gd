@@ -5,6 +5,7 @@ extends Node
 @export var new_file_window_scene : PackedScene
 @export var open_file_window_scene : PackedScene
 @export var add_data_window_scene : PackedScene
+@export var quit_window_scene : PackedScene
 
 # Window types available
 enum Windows{
@@ -13,6 +14,7 @@ enum Windows{
 	NewFile,
 	Open,
 	AddData,
+	Quit
 }
 
 # Scene to type mapping
@@ -22,6 +24,7 @@ enum Windows{
 	Windows.NewFile : new_file_window_scene,
 	Windows.Open : open_file_window_scene,
 	Windows.AddData : add_data_window_scene,
+	Windows.Quit : quit_window_scene
 }
 
 

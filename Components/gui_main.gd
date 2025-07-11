@@ -16,7 +16,6 @@ func add_data_to_gui(new_time_entry : TimeEntry) -> void:
 	
 	# Setup text display fields
 	new_date_label.text = new_time_entry.date
-	#new_date_label.set_script(load("res://date_label.gd"))
 	new_time_label.text = str(new_time_entry.time)
 	new_time_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	new_date_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL

@@ -1,6 +1,6 @@
 class_name DeleteFileWindow
 extends AcceptDialog
-
+@onready var vbox : VBoxContainer = $ScrollContainer/VBoxContainer
 func _ready():
 	show()
 	
@@ -16,7 +16,7 @@ func _ready():
 		while file_name != "":
 			var button : Button = Button.new()
 			button.text = file_name
-			$ScrollContainer/VBoxContainer.add_child(button)
+			vbox.add_child(button)
 			button.pressed.connect(delete_file.bind(button.text))
 			file_name = dir.get_next()
 
@@ -44,8 +44,8 @@ func confirm_delete_file(file_to_delete_path : String, new_window : Confirmation
 	FileManager.delete_file(file_to_delete_path, is_cur_save_file)
 	new_window.queue_free()
 	if is_cur_save_file:
-		Globals.main_scene.gui_main.clear_contents()
-		Globals.main_scene.bottom_gui.hide_contents() # A helluva hack
+		GuiManager.clear_gui_main()
+		GuiManager.hide_bottom_gui()
 	queue_free()
 
 

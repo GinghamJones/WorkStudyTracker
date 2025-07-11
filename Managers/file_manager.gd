@@ -4,13 +4,19 @@ var config_file_path : String = "user://settings.ini"
 var save_folder_path : String = "user://saves/"
 
 signal file_deleted
+signal save_needed
+signal update_total_needed
 
 func _ready() -> void:
 	SignalManager.register_listener(self)
 
 
 func _on_system_ready() -> void:
-	file_deleted.connect(Globals.main_scene._on_file_deleted)
+	# Connect all da signals
+	var main := get_tree().get_first_node_in_group("Main")
+	file_deleted.connect(main._on_file_deleted)
+	save_needed.connect(main.save)
+	update_total_needed.connect(main.update_total)
 
 
 func create_new_file(filename : String) -> bool:
@@ -60,16 +66,15 @@ func rename_file(new_file_name : String) -> void:
 	DirAccess.rename_absolute(cur_save_file_path, new_save_file_path)
 	DirAccess.remove_absolute(cur_save_file_path)
 	
-	#Globals.main_scene.open_file(new_save_file_path)
 	Globals.term = new_file_name
 	Globals.cur_save_file = new_save_file_path
-	Globals.main_scene.save()
-	FileManager.open_file(new_save_file_path)
+	save_needed.emit()
+	open_file(new_save_file_path)
 
 
 func open_file(filename : String) -> void:
 	Globals.cur_save_file = filename
-	var save_file = FileManager.get_save_file(filename, FileAccess.READ)
+	var save_file = get_save_file(filename, FileAccess.READ)
 	if not save_file:
 		GuiManager.hide_bottom_gui()
 		return
@@ -77,7 +82,6 @@ func open_file(filename : String) -> void:
 	# Clear previous data
 	GuiManager.clear_gui_main()
 	TimeEntryManager.clear_all_entries()
-	# time_entries = []
 	
 	# Create main display from save data
 	while(true):
@@ -92,20 +96,16 @@ func open_file(filename : String) -> void:
 		# Assign variables from extracted data
 		if separated_data[0] == "term":
 			Globals.term = separated_data[1]
-
-			# continue
 		elif separated_data[0] == "max_hours":
 			Globals.max_hours = int(separated_data[1])
-			# continue
 		elif separated_data[0] == "wage":
 			Globals.wage = float(separated_data[1])
-			# continue
 		else:
 			TimeEntryManager.add_entry(separated_data[0], separated_data[1])
 	
 	save_file.close()
 	
-	Globals.main_scene.update_total()
+	update_total_needed.emit()
 	GuiManager.show_bottom_gui()
 	GuiManager.show_gui_main()
 
@@ -114,9 +114,8 @@ func delete_file(file_to_delete : String, is_cur_save_file : bool) -> void:
 	DirAccess.remove_absolute(file_to_delete)
 	Globals.cur_save_file = ""
 	if is_cur_save_file:
-		Globals.main_scene.gui_main.clear_contents()
-		Globals.main_scene.bottom_gui.hide_contents() # A helluva hack
-
+		GuiManager.clear_gui_main()
+		GuiManager.hide_bottom_gui()
 
 
 func get_filename_as_full_path(filename : String) -> String:

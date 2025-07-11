@@ -3,6 +3,7 @@ extends Node
 var gui_main : GUIMain
 var gui_bottom : GUIBottom
 
+
 func _ready() -> void:
 	SignalManager.register_listener(self)
 
@@ -32,3 +33,7 @@ func clear_gui_main() -> void:
 	gui_main.clear_contents()
 	gui_main.hide()
 	gui_main.process_mode = Node.PROCESS_MODE_DISABLED
+
+
+func pass_data_to_gui(new_time_entry : TimeEntry) -> void:
+	gui_main.add_data_to_gui(new_time_entry)

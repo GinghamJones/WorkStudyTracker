@@ -1,19 +1,19 @@
-[gd_scene load_steps=2 format=3 uid="uid://cqquobubam8j7"]
+[gd_scene load_steps=3 format=3 uid="uid://cqquobubam8j7"]
 
 [ext_resource type="Script" uid="uid://d0bos4x0v7k66" path="res://Windows/Scripts/add_data_window.gd" id="1_q6r62"]
+[ext_resource type="Theme" uid="uid://cp1l5q3r0n17m" path="res://Theming/main_theme.tres" id="1_torhf"]
 
 [node name="AddDataWindow" type="ConfirmationDialog"]
 initial_position = 2
 size = Vector2i(300, 200)
 visible = true
+theme = ExtResource("1_torhf")
 ok_button_text = "Add"
 script = ExtResource("1_q6r62")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-offset_left = 8.0
-offset_top = 8.0
-offset_right = 292.0
-offset_bottom = 151.0
+offset_right = 300.0
+offset_bottom = 169.0
 
 [node name="DateLine" type="LineEdit" parent="VBoxContainer"]
 layout_mode = 2
@@ -27,6 +27,7 @@ placeholder_text = "Hours worked"
 custom_minimum_size = Vector2(250, 50)
 layout_mode = 2
 size_flags_vertical = 10
+theme_override_font_sizes/font_size = 14
 vertical_alignment = 1
 autowrap_mode = 2
 

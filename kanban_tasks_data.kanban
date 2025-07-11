@@ -13,15 +13,15 @@
 			"tasks": [
 				"79751aaa-d9ec-411c-a10b-3a7f938263a6",
 				"d43eaadd-a80f-4449-979f-d8201ca3ab34",
-				"d78dcc47-3b84-4c1c-a0bd-cb6363070cbb"
+				"d78dcc47-3b84-4c1c-a0bd-cb6363070cbb",
+				"18b94db5-9035-4225-993e-0eefb6d7ec95",
+				"941a07f8-da0f-414c-a241-9f06ad6e24ca"
 			]
 		},
 		{
 			"uuid": "703758e3-d069-4fac-958e-b98fbf3c8b76",
 			"title": "Doing",
-			"tasks": [
-				"5992988e-2571-4e51-9d97-6b9cc69378e4"
-			]
+			"tasks": []
 		},
 		{
 			"uuid": "07300717-23c9-4027-b673-dfd52c9a12f8",
@@ -30,13 +30,6 @@
 		}
 	],
 	"tasks": [
-		{
-			"uuid": "5992988e-2571-4e51-9d97-6b9cc69378e4",
-			"title": "Make window scripts into nodes",
-			"description": "",
-			"category": "ca7372b8-4b1f-42ae-9e9b-0d256e3ffd0d",
-			"steps": []
-		},
 		{
 			"uuid": "d67e6441-1a6c-4178-8bc2-c5f95e0152c1",
 			"title": "Create rename function",
@@ -68,6 +61,34 @@
 		{
 			"uuid": "d78dcc47-3b84-4c1c-a0bd-cb6363070cbb",
 			"title": "Allow editing existing entries with data checks",
+			"description": "",
+			"category": "ca7372b8-4b1f-42ae-9e9b-0d256e3ffd0d",
+			"steps": []
+		},
+		{
+			"uuid": "18b94db5-9035-4225-993e-0eefb6d7ec95",
+			"title": "Implement Auto-Save",
+			"description": "",
+			"category": "ca7372b8-4b1f-42ae-9e9b-0d256e3ffd0d",
+			"steps": []
+		},
+		{
+			"uuid": "82109ce8-0f73-417a-a6b4-45c798f7ccd1",
+			"title": "GuiManager does bottom gui. Delete File Window uses it to clear bottom gui",
+			"description": "",
+			"category": "ca7372b8-4b1f-42ae-9e9b-0d256e3ffd0d",
+			"steps": []
+		},
+		{
+			"uuid": "941a07f8-da0f-414c-a241-9f06ad6e24ca",
+			"title": "Are we using DateLabel",
+			"description": "",
+			"category": "ca7372b8-4b1f-42ae-9e9b-0d256e3ffd0d",
+			"steps": []
+		},
+		{
+			"uuid": "ab1008ee-a873-4d4d-8015-e2fe6252d5b0",
+			"title": "Check for proper formatting in time entries. Allow editing time entry.",
 			"description": "",
 			"category": "ca7372b8-4b1f-42ae-9e9b-0d256e3ffd0d",
 			"steps": []

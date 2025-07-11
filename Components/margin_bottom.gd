@@ -1,11 +1,14 @@
 class_name GUIBottom
 extends MarginContainer
 
+@export var info_vbox : VBoxContainer
+@export var add_button : Button
+
 func show_contents() -> void:
-	$VBox/InfoVBox.show()
-	$VBox/ButtonHBox/addbutton.show()
+	info_vbox.show()
+	add_button.show()
 
 
 func hide_contents() -> void:
-	$VBox/InfoVBox.hide()
-	$VBox/ButtonHBox/addbutton.hide()
+	info_vbox.hide()
+	add_button.hide()
